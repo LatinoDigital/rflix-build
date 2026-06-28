@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/root" android:background="@drawable/bg_gradient_main" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="horizontal" android:background="@drawable/epg_header_bg" android:layout_width="fill_parent" android:layout_height="52.0dip">
+            <LinearLayout android:gravity="center" android:orientation="horizontal" android:background="#ff0d0d10" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="220.0dip" android:layout_height="fill_parent">
+                <ImageView android:layout_width="20.0dip" android:layout_height="20.0dip" android:src="@drawable/ic_tv_placeholder" android:tint="#ffb71c1c" />
+                <TextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="#ffa0a0a0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CHANNELS" android:layout_marginStart="8.0dip" android:letterSpacing="0.1" />
+            </LinearLayout>
+            <HorizontalScrollView android:id="@id/time_ruler_scroll" android:scrollbars="none" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+                <LinearLayout android:orientation="horizontal" android:id="@id/time_ruler" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+            </HorizontalScrollView>
+        </LinearLayout>
+        <View android:background="@drawable/accent_gradient_line" android:layout_width="fill_parent" android:layout_height="2.0dip" />
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+            <androidx.recyclerview.widget.RecyclerView android:id="@id/channel_list" android:background="#ff0a0a0d" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:scrollbars="none" android:clipToPadding="false" android:layout_width="220.0dip" android:layout_height="fill_parent" />
+            <View android:background="#14ffffff" android:layout_width="1.0dip" android:layout_height="fill_parent" />
+            <HorizontalScrollView android:id="@id/epg_horizontal_scroll" android:scrollbars="none" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+                <androidx.recyclerview.widget.RecyclerView android:id="@id/epg_grid" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:scrollbars="none" android:clipToPadding="false" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+            </HorizontalScrollView>
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/epg_footer_bg" android:paddingLeft="24.0dip" android:paddingRight="24.0dip" android:layout_width="fill_parent" android:layout_height="72.0dip">
+            <View android:background="@drawable/accent_gradient_vertical" android:layout_width="4.0dip" android:layout_height="40.0dip" />
+            <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="16.0dip">
+                <TextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/selected_program_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Select a program" android:maxLines="1" />
+                <TextView android:textSize="13.0sp" android:textColor="#ffa0a0a0" android:id="@id/selected_program_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/hint_badge_bg" android:paddingLeft="16.0dip" android:paddingTop="8.0dip" android:paddingRight="16.0dip" android:paddingBottom="8.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:textSize="11.0sp" android:textStyle="bold" android:textColor="#ffb71c1c" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OK" />
+                <TextView android:textSize="11.0sp" android:textColor="#ff606060" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" Watch  " />
+                <TextView android:textSize="11.0sp" android:textStyle="bold" android:textColor="#ffb71c1c" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BACK" />
+                <TextView android:textSize="11.0sp" android:textColor="#ff606060" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" Exit" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <View android:id="@id/now_line" android:background="#ffb71c1c" android:visibility="gone" android:layout_width="2.0dip" android:layout_height="fill_parent" />
+</FrameLayout>

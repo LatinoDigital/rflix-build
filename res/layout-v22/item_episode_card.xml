@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/episode_card" android:background="@drawable/episode_card_bg" android:layout_width="@dimen/episode_card_w" android:layout_height="@dimen/episode_card_h" android:layout_marginEnd="@dimen/poster_gap" android:clipToOutline="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/episode_thumbnail" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+    <LinearLayout android:layout_gravity="bottom" android:orientation="vertical" android:background="@drawable/episode_footer_bg" android:padding="@dimen/spacing_md" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="@dimen/tivimate_text_meta" android:textColor="@color/tivimate_white_90" android:ellipsize="end" android:id="@id/episode_number" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="1" />
+        <TextView android:textSize="@dimen/tivimate_text_tiny" android:textColor="@color/tivimate_white_75" android:ellipsize="end" android:id="@id/episode_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_xs" android:maxLines="1" />
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/gradient_osd" android:padding="24.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <ImageView android:id="@id/osd_channel_logo" android:background="#20ffffff" android:layout_width="64.0dip" android:layout_height="64.0dip" android:scaleType="fitCenter" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="16.0dip">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <TextView android:textSize="24.0sp" android:textStyle="bold" android:textColor="#ffb71c1c" android:id="@id/osd_channel_number" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1" />
+                <TextView android:textSize="20.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/osd_channel_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Channel Name" android:maxLines="1" android:layout_marginStart="12.0dip" />
+            </LinearLayout>
+            <TextView android:textSize="16.0sp" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/osd_program_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="Program Title" android:maxLines="1" />
+            <TextView android:textSize="14.0sp" android:textColor="#ffaaaaaa" android:id="@id/osd_program_time" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="20:00 - 21:00" />
+        </LinearLayout>
+    </LinearLayout>
+    <ProgressBar android:id="@id/osd_progress" android:layout_width="fill_parent" android:layout_height="4.0dip" android:layout_marginTop="12.0dip" android:max="100" android:progress="50" android:progressDrawable="@drawable/progress_osd" style="@android:style/Widget.ProgressBar.Horizontal" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip">
+        <TextView android:textSize="14.0sp" android:textColor="#ff888888" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Next:" />
+        <TextView android:textSize="14.0sp" android:textColor="#ffcccccc" android:ellipsize="end" android:id="@id/osd_next_program" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="Next Program Title" android:maxLines="1" android:layout_weight="1.0" android:layout_marginStart="8.0dip" />
+        <TextView android:textSize="14.0sp" android:textColor="#ff888888" android:id="@id/osd_next_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="21:00" android:layout_marginStart="8.0dip" />
+    </LinearLayout>
+</LinearLayout>

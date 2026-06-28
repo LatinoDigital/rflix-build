@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="#ff0a0a0f" android:padding="24.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="24.0dip">
+        <Button android:textSize="14.0sp" android:textColor="#ffffffff" android:id="@id/type_toggle" android:background="@drawable/toggle_button_bg" android:paddingLeft="24.0dip" android:paddingRight="24.0dip" android:focusable="true" android:layout_width="wrap_content" android:layout_height="48.0dip" android:text="Movies" android:paddingHorizontal="24.0dip" />
+        <Spinner android:id="@id/genre_spinner" android:background="@drawable/spinner_bg" android:focusable="true" android:layout_width="180.0dip" android:layout_height="48.0dip" android:popupBackground="#ff1a1a25" android:layout_marginStart="16.0dip" />
+        <Spinner android:id="@id/year_spinner" android:background="@drawable/spinner_bg" android:focusable="true" android:layout_width="120.0dip" android:layout_height="48.0dip" android:popupBackground="#ff1a1a25" android:layout_marginStart="16.0dip" />
+        <Spinner android:id="@id/sort_spinner" android:background="@drawable/spinner_bg" android:focusable="true" android:layout_width="150.0dip" android:layout_height="48.0dip" android:popupBackground="#ff1a1a25" android:layout_marginStart="16.0dip" />
+        <Spinner android:id="@id/language_spinner" android:background="@drawable/spinner_bg" android:focusable="true" android:layout_width="150.0dip" android:layout_height="48.0dip" android:popupBackground="#ff1a1a25" android:layout_marginStart="16.0dip" />
+    </LinearLayout>
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/results_grid" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <ProgressBar android:layout_gravity="center" android:id="@id/loading" android:visibility="gone" android:layout_width="48.0dip" android:layout_height="48.0dip" android:indeterminateTint="#ffb71c1c" />
+    </FrameLayout>
+</LinearLayout>

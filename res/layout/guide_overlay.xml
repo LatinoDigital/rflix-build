@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/guide_overlay_root" android:background="@color/tivimate_black" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <View android:id="@id/guide_dim_layer" android:background="@color/tivimate_black_35" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <FrameLayout android:id="@id/guide_panel" android:background="@drawable/guide_panel_bg" android:layout_width="@dimen/guide_panel_w" android:layout_height="@dimen/guide_panel_h" android:layout_marginTop="@dimen/guide_panel_y" android:layout_marginStart="@dimen/guide_panel_x" android:elevation="4.0dip">
+        <SurfaceView android:id="@id/mini_preview_video" android:layout_width="@dimen/mini_preview_w" android:layout_height="@dimen/mini_preview_h" android:layout_marginTop="@dimen/mini_preview_y" android:layout_marginStart="@dimen/mini_preview_x" />
+        <View android:id="@id/mini_preview_overlay" android:background="@drawable/mini_preview_overlay" android:layout_width="@dimen/mini_preview_w" android:layout_height="@dimen/mini_preview_h" android:layout_marginTop="@dimen/mini_preview_y" android:layout_marginStart="@dimen/mini_preview_x" android:elevation="2.0dip" />
+        <LinearLayout android:orientation="vertical" android:id="@id/info_block" android:padding="@dimen/spacing_lg" android:layout_width="@dimen/info_block_w" android:layout_height="@dimen/info_block_h" android:layout_marginTop="@dimen/info_block_y" android:layout_marginStart="@dimen/info_block_x">
+            <TextView android:textSize="@dimen/tivimate_text_h1" android:textStyle="bold" android:textColor="@color/tivimate_white_90" android:ellipsize="end" android:id="@id/program_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" />
+            <TextView android:textSize="@dimen/tivimate_text_meta" android:textColor="@color/tivimate_white_75" android:id="@id/program_meta" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_md" />
+            <TextView android:textSize="@dimen/tivimate_text_body2" android:textColor="@color/tivimate_white_60" android:ellipsize="end" android:id="@id/program_description" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_md" android:maxLines="3" />
+        </LinearLayout>
+        <HorizontalScrollView android:id="@id/time_ruler_scroll" android:scrollbars="none" android:layout_width="@dimen/time_ruler_w" android:layout_height="@dimen/time_ruler_h" android:layout_marginTop="@dimen/time_ruler_y" android:layout_marginStart="@dimen/time_ruler_x">
+            <LinearLayout android:orientation="horizontal" android:id="@id/time_ruler" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+        </HorizontalScrollView>
+        <View android:layout_gravity="bottom" android:background="@color/tivimate_divider" android:layout_width="@dimen/time_ruler_w" android:layout_height="1.0dip" android:layout_marginTop="@dimen/time_ruler_y" android:layout_marginStart="@dimen/time_ruler_x" />
+        <LinearLayout android:orientation="horizontal" android:layout_width="@dimen/grid_w" android:layout_height="@dimen/grid_h" android:layout_marginTop="@dimen/grid_y" android:layout_marginStart="@dimen/grid_x">
+            <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/ch_index_column" android:layout_width="@dimen/ch_index_w" android:layout_height="fill_parent" />
+            <LinearLayout android:orientation="vertical" android:id="@id/ch_logo_column" android:layout_width="@dimen/ch_logo_w" android:layout_height="fill_parent" />
+            <LinearLayout android:orientation="vertical" android:id="@id/ch_name_column" android:layout_width="@dimen/ch_name_w" android:layout_height="fill_parent" />
+            <HorizontalScrollView android:id="@id/epg_grid_scroll" android:scrollbars="none" android:layout_width="@dimen/program_grid_w" android:layout_height="@dimen/program_grid_h">
+                <LinearLayout android:orientation="vertical" android:id="@id/epg_grid" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+            </HorizontalScrollView>
+            <View android:id="@id/playhead_line" android:background="@color/tivimate_white_45" android:visibility="gone" android:layout_width="@dimen/playhead_width" android:layout_height="fill_parent" />
+            <View android:id="@id/playhead_dot" android:background="@drawable/playhead_dot" android:visibility="gone" android:layout_width="@dimen/playhead_dot_radius" android:layout_height="@dimen/playhead_dot_radius" />
+        </LinearLayout>
+    </FrameLayout>
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/icon_rail" android:background="@drawable/icon_rail_bg" android:layout_width="@dimen/icon_rail_w" android:layout_height="@dimen/icon_rail_h" android:layout_marginTop="@dimen/icon_rail_y" android:layout_marginStart="@dimen/icon_rail_x" android:elevation="2.0dip" />
+</FrameLayout>

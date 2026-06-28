@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:background="#ff0d0d0d" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:id="@id/content_area" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ImageView android:id="@id/hero_backdrop" android:layout_width="fill_parent" android:layout_height="280.0dip" android:scaleType="centerCrop" android:alpha="0.55" />
+        <View android:background="@drawable/gradient_bottom_dark" android:layout_width="fill_parent" android:layout_height="160.0dip" android:layout_marginTop="150.0dip" />
+        <LinearLayout android:orientation="vertical" android:id="@id/hero_info" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="140.0dip" android:paddingStart="48.0dip" android:paddingEnd="200.0dip">
+            <TextView android:textSize="30.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/hero_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="2" android:shadowColor="#ff000000" android:shadowDx="0.0" android:shadowDy="2.0" android:shadowRadius="6.0" />
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip">
+                <TextView android:textSize="14.0sp" android:textColor="#ffb0b0b0" android:id="@id/hero_year" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <TextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="#ffffc107" android:id="@id/hero_rating_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12.0dip" />
+                <TextView android:textSize="13.0sp" android:textColor="#ff808080" android:ellipsize="end" android:id="@id/hero_genre" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:layout_marginStart="12.0dip" />
+            </LinearLayout>
+            <TextView android:textSize="13.0sp" android:textColor="#ff909090" android:ellipsize="end" android:id="@id/hero_plot" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:maxLines="2" />
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/content_rows" android:paddingBottom="48.0dip" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="250.0dip" />
+        <TextView android:textSize="22.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="Movies" android:shadowColor="#ff000000" android:shadowDx="0.0" android:shadowDy="1.0" android:shadowRadius="4.0" android:layout_marginStart="48.0dip" />
+    </FrameLayout>
+    <LinearLayout android:orientation="vertical" android:id="@id/sidebar" android:background="#e6111111" android:paddingTop="24.0dip" android:visibility="visible" android:layout_width="280.0dip" android:layout_height="fill_parent" android:translationX="-280.0dip" android:elevation="8.0dip">
+        <TextView android:textSize="20.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:id="@id/sidebar_title" android:paddingBottom="12.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Categories" android:paddingStart="20.0dip" android:paddingEnd="20.0dip" />
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/sidebar_categories" android:paddingBottom="24.0dip" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
+    </LinearLayout>
+    <com.rflix.app.ui.HeartbeatLoadingView android:id="@id/loading" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</FrameLayout>

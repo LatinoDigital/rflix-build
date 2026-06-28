@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/epg_premium_bg" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:id="@id/details_header" android:background="@drawable/epg_header_gradient" android:paddingLeft="24.0dip" android:paddingTop="20.0dip" android:paddingRight="24.0dip" android:paddingBottom="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:elevation="8.0dip">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <ImageView android:id="@id/star_icon" android:layout_width="28.0dip" android:layout_height="28.0dip" android:src="@drawable/ic_star" android:tint="#ffffd700" android:layout_marginEnd="16.0dip" android:elevation="4.0dip" />
+            <TextView android:textSize="20.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/epg_program_title" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="Select a program" android:maxLines="1" android:shadowColor="#80000000" android:shadowDx="0.0" android:shadowDy="2.0" android:shadowRadius="4.0" android:layout_weight="1.0" android:letterSpacing="0.02" />
+            <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:id="@id/group_label" android:background="@drawable/premium_badge_bg" android:paddingLeft="16.0dip" android:paddingTop="6.0dip" android:paddingRight="16.0dip" android:paddingBottom="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="All channels" android:elevation="4.0dip" />
+        </LinearLayout>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:layout_marginStart="44.0dip">
+            <TextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="#ffe0e0e0" android:id="@id/epg_program_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="--:-- - --:--" android:letterSpacing="0.05" />
+            <ProgressBar android:id="@id/epg_program_progress" android:layout_width="0.0dip" android:layout_height="6.0dip" android:max="100" android:progress="0" android:progressDrawable="@drawable/progress_premium" android:layout_weight="1.0" android:layout_marginStart="16.0dip" android:layout_marginEnd="16.0dip" style="@android:style/Widget.ProgressBar.Horizontal" />
+            <TextView android:textSize="13.0sp" android:textStyle="bold" android:textColor="#ffb0b0b0" android:id="@id/epg_program_remaining" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" />
+        </LinearLayout>
+        <TextView android:textSize="13.0sp" android:textColor="#ffb0b0b0" android:ellipsize="end" android:id="@id/epg_program_description" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:maxLines="2" android:lineSpacingExtra="2.0dip" android:layout_marginStart="44.0dip" />
+    </LinearLayout>
+    <HorizontalScrollView android:id="@id/time_ruler_scroll" android:background="@drawable/time_ruler_bg" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="wrap_content" android:elevation="6.0dip">
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="200.0dip">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/time_ruler" android:layout_width="wrap_content" android:layout_height="48.0dip" />
+        </LinearLayout>
+    </HorizontalScrollView>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/channel_column" android:background="@drawable/channel_column_bg" android:clipToPadding="false" android:layout_width="200.0dip" android:layout_height="fill_parent" android:elevation="4.0dip" />
+        <HorizontalScrollView android:id="@id/program_grid_scroll" android:background="#ff0a0a0f" android:scrollbars="none" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <androidx.recyclerview.widget.RecyclerView android:id="@id/program_grid" android:clipToPadding="false" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+        </HorizontalScrollView>
+    </LinearLayout>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:background="@drawable/controls_hint_bg" android:paddingLeft="24.0dip" android:paddingTop="12.0dip" android:paddingRight="24.0dip" android:paddingBottom="12.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:elevation="8.0dip">
+        <TextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="#ffffd700" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="◀ ▶" android:layout_marginEnd="8.0dip" />
+        <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Navigate" android:layout_marginEnd="24.0dip" />
+        <TextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="#ffffd700" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OK" android:layout_marginEnd="8.0dip" />
+        <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Watch" android:layout_marginEnd="24.0dip" />
+        <TextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="#ffffd700" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BACK" android:layout_marginEnd="8.0dip" />
+        <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Exit" />
+    </LinearLayout>
+</LinearLayout>

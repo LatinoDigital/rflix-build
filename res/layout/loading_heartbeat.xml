@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:gravity="center" android:id="@id/loading_container" android:background="#e008080a" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <FrameLayout android:layout_gravity="center" android:layout_width="160.0dip" android:layout_height="160.0dip">
+            <View android:layout_gravity="center" android:background="@drawable/loading_glow" android:layout_width="fill_parent" android:layout_height="fill_parent" android:alpha="0.3" />
+            <ImageView android:layout_gravity="center" android:id="@id/heart_logo" android:visibility="gone" android:layout_width="120.0dip" android:layout_height="120.0dip" android:src="@drawable/ic_rflix_heart_logo" android:scaleType="fitCenter" />
+        </FrameLayout>
+        <TextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:id="@id/loading_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="32.0dip" android:text="Loading..." android:shadowColor="#80000000" android:shadowDx="0.0" android:shadowDy="2.0" android:shadowRadius="4.0" android:letterSpacing="0.1" />
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/dots_container" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip">
+            <View android:id="@id/dot1" android:background="@drawable/loading_dot" android:layout_width="8.0dip" android:layout_height="8.0dip" android:layout_margin="6.0dip" />
+            <View android:id="@id/dot2" android:background="@drawable/loading_dot" android:layout_width="8.0dip" android:layout_height="8.0dip" android:layout_margin="6.0dip" />
+            <View android:id="@id/dot3" android:background="@drawable/loading_dot" android:layout_width="8.0dip" android:layout_height="8.0dip" android:layout_margin="6.0dip" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

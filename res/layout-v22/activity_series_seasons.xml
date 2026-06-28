@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:background="@drawable/bg_gradient_main" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/fanart_background" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" android:alpha="0.15" />
+    <View android:background="@drawable/gradient_vod_fullscreen" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="horizontal" android:background="@drawable/epg_header_bg" android:padding="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <FrameLayout android:layout_width="110.0dip" android:layout_height="165.0dip">
+                <ImageView android:id="@id/series_poster" android:background="@drawable/poster_bg" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+            </FrameLayout>
+            <LinearLayout android:layout_gravity="center_vertical" android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="20.0dip">
+                <TextView android:textSize="26.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/series_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Series Title" android:maxLines="2" />
+                <TextView android:textSize="14.0sp" android:textColor="#ffa0a0a0" android:id="@id/series_info" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:text="2023 • 3 Seasons" />
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/rating_badge_bg" android:paddingLeft="12.0dip" android:paddingTop="6.0dip" android:paddingRight="12.0dip" android:paddingBottom="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:paddingHorizontal="12.0dip" android:paddingVertical="6.0dip">
+                    <ImageView android:layout_width="16.0dip" android:layout_height="16.0dip" android:src="@drawable/ic_star" android:tint="#ffffc107" />
+                    <TextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="#ffffc107" android:id="@id/series_rating" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="8.5" android:layout_marginStart="6.0dip" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:gravity="center_vertical" android:layout_gravity="top" android:orientation="horizontal" android:background="@drawable/hint_badge_bg" android:paddingLeft="12.0dip" android:paddingTop="6.0dip" android:paddingRight="12.0dip" android:paddingBottom="6.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingHorizontal="12.0dip" android:paddingVertical="6.0dip">
+                <TextView android:textSize="10.0sp" android:textStyle="bold" android:textColor="#ffb71c1c" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BACK" />
+                <TextView android:textSize="10.0sp" android:textColor="#ff606060" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" Return" />
+            </LinearLayout>
+        </LinearLayout>
+        <View android:background="@drawable/accent_gradient_line" android:layout_width="fill_parent" android:layout_height="2.0dip" />
+        <HorizontalScrollView android:id="@id/seasons_scroll" android:background="#ff0a0a0d" android:paddingTop="8.0dip" android:paddingBottom="8.0dip" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingVertical="8.0dip">
+            <LinearLayout android:orientation="horizontal" android:id="@id/seasons_tabs" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingHorizontal="16.0dip" />
+        </HorizontalScrollView>
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/episodes_list" android:background="#ff08080a" android:padding="16.0dip" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:background="@drawable/epg_footer_bg" android:paddingLeft="24.0dip" android:paddingRight="24.0dip" android:layout_width="fill_parent" android:layout_height="56.0dip" android:paddingHorizontal="24.0dip">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/hint_badge_bg" android:paddingLeft="16.0dip" android:paddingTop="8.0dip" android:paddingRight="16.0dip" android:paddingBottom="8.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingHorizontal="16.0dip" android:paddingVertical="8.0dip">
+                <TextView android:textSize="11.0sp" android:textStyle="bold" android:textColor="#ffb71c1c" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="←→" />
+                <TextView android:textSize="11.0sp" android:textColor="#ff606060" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" Season  " />
+                <TextView android:textSize="11.0sp" android:textStyle="bold" android:textColor="#ffb71c1c" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OK" />
+                <TextView android:textSize="11.0sp" android:textColor="#ff606060" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" Play" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

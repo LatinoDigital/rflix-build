@@ -1,0 +1,31 @@
+!!brut.androlib.meta.MetaInfo
+apkFileName: RFlix_v582-aligned-signed.apk
+compressionType: false
+doNotCompress:
+- resources.arsc
+- classes.dex
+- png
+- ogg
+- assets/dexopt/baseline.profm
+isFrameworkApk: false
+packageInfo:
+  forcedPackageId: '127'
+  renameManifestPackage: null
+sdkInfo:
+  minSdkVersion: '21'
+  targetSdkVersion: '30'
+sharedLibrary: false
+sparseResources: false
+unknownFiles:
+  DebugProbesKt.bin: '8'
+  kotlin-tooling-metadata.json: '8'
+  okhttp3/internal/publicsuffix/NOTICE: '8'
+  okhttp3/internal/publicsuffix/publicsuffixes.gz: '0'
+usesFramework:
+  ids:
+  - 1
+  tag: null
+version: 2.7.0-dirty
+versionInfo:
+  versionCode: '525'
+  versionName: 5.64-Layouts

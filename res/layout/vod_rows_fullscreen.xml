@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/vod_rows_root" android:background="@drawable/vod_rows_bg" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:id="@id/vod_rows_banner_container" android:layout_width="@dimen/full_banner_w" android:layout_height="@dimen/full_banner_h" android:layout_marginTop="@dimen/full_banner_y" android:layout_marginStart="@dimen/full_banner_x">
+        <ImageView android:id="@id/vod_rows_banner_image" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+        <View android:background="@drawable/banner_overlay_gradient" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <LinearLayout android:orientation="vertical" android:id="@id/vod_rows_banner_text" android:padding="@dimen/spacing_lg" android:layout_width="600.0dip" android:layout_height="fill_parent">
+            <TextView android:textSize="@dimen/tivimate_text_h2" android:textStyle="bold" android:textColor="@color/tivimate_white_90" android:ellipsize="end" android:id="@id/vod_rows_banner_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" />
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout android:id="@id/vod_rows_scroll_container" android:layout_width="@dimen/rows_w" android:layout_height="@dimen/rows_h" android:layout_marginTop="@dimen/rows_y" android:layout_marginStart="@dimen/rows_x">
+        <RecyclerView android:id="@id/vod_rows_recycler" android:scrollbars="vertical" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <View android:id="@id/vod_focus_anchor" android:background="@android:color/transparent" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/row_item_height" android:layout_marginTop="@dimen/row_focus_y_offset" />
+    </FrameLayout>
+</FrameLayout>

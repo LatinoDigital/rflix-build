@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/root" android:background="@color/background_dark" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@color/sidebar_background" android:layout_width="fill_parent" android:layout_height="56.0dip" android:paddingStart="16.0dip" android:paddingEnd="16.0dip">
+        <TextView android:textSize="20.0sp" android:textStyle="bold" android:textColor="@color/text_white" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Live TV" />
+        <TextView android:textSize="14.0sp" android:textColor="@color/text_gray" android:gravity="center" android:id="@id/hint" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="OK=Play • 1=EPG • 2=Settings • BACK" android:layout_weight="1.0" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+        <LinearLayout android:orientation="vertical" android:id="@id/sidebar" android:background="@color/sidebar_background" android:padding="16.0dip" android:visibility="gone" android:layout_width="200.0dip" android:layout_height="fill_parent">
+            <TextView android:textSize="24.0sp" android:textStyle="bold" android:textColor="@color/text_white" android:paddingBottom="24.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="tivimate" />
+            <TextView android:textSize="16.0sp" android:textColor="@color/text_white" android:gravity="center" android:id="@id/menu_search" android:background="?selectableItemBackground" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="48.0dip" android:layout_marginBottom="8.0dip" android:text="🔍 Search" />
+            <TextView android:textSize="16.0sp" android:textColor="@color/text_white" android:gravity="center" android:id="@id/menu_tv" android:background="@color/focus_color" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="48.0dip" android:layout_marginBottom="8.0dip" android:text="📺 TV" />
+            <TextView android:textSize="16.0sp" android:textColor="@color/text_white" android:gravity="center" android:id="@id/menu_movies" android:background="?selectableItemBackground" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="48.0dip" android:layout_marginBottom="8.0dip" android:text="🎬 Movies" />
+            <TextView android:textSize="16.0sp" android:textColor="@color/text_gray" android:gravity="center" android:id="@id/menu_recordings" android:focusable="false" android:clickable="false" android:layout_width="fill_parent" android:layout_height="48.0dip" android:layout_marginBottom="8.0dip" android:text="📹 Recordings" />
+            <TextView android:textSize="16.0sp" android:textColor="@color/text_gray" android:gravity="center" android:id="@id/menu_mylist" android:focusable="false" android:clickable="false" android:layout_width="fill_parent" android:layout_height="48.0dip" android:layout_marginBottom="8.0dip" android:text="⭐ My list" />
+            <TextView android:textSize="16.0sp" android:textColor="@color/text_gray" android:gravity="center" android:id="@id/menu_settings" android:focusable="false" android:clickable="false" android:layout_width="fill_parent" android:layout_height="48.0dip" android:text="⚙️ Settings" />
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/categories" android:background="@color/dark_red" android:padding="8.0dip" android:layout_width="260.0dip" android:layout_height="fill_parent" />
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/channels" android:padding="8.0dip" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" />
+    </LinearLayout>
+</LinearLayout>
