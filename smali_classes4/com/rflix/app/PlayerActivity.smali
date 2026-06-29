@@ -3727,7 +3727,7 @@
 .end method
 
 .method public onWindowFocusChanged(Z)V
-    .locals 0
+    .locals 1
 
     .line 264
     invoke-super {p0, p1}, Landroidx/appcompat/app/AppCompatActivity;->onWindowFocusChanged(Z)V
@@ -3737,6 +3737,11 @@
     iget-boolean p1, p0, Lcom/rflix/app/PlayerActivity;->isInPip:Z
 
     if-nez p1, :cond_0
+
+    # Don't re-apply immersive mode in Live TV - OSD hide causes focus change
+    # which triggers applyImmersiveMode -> FLAG_FULLSCREEN re-set -> zoom animation
+    iget-boolean v0, p0, Lcom/rflix/app/PlayerActivity;->isLiveMode:Z
+    if-nez v0, :cond_0
 
     invoke-direct {p0}, Lcom/rflix/app/PlayerActivity;->applyImmersiveMode()V
 

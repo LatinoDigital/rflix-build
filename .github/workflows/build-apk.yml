@@ -15,18 +15,18 @@ jobs:
       - name: Restore native libs
         run: tar xzf lib_bundle.tar.gz
       - name: Build APK
-        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v597.apk
+        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v598.apk
       - name: Sign APK
         run: |
-          java -jar uber-apk-signer.jar --apks RFlix_v597.apk \
+          java -jar uber-apk-signer.jar --apks RFlix_v598.apk \
             --ks rflix-release.keystore --ksAlias rflix \
             --ksPass rflix123 --ksKeyPass rflix123 -o .
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete v597-build --yes 2>/dev/null || true
-          gh release create v597-build \
-            --title "RFlix v597 - Auto Skip Intro toggle" \
-            --notes "Settings > Player > Auto Skip Intro on/off toggle"
-          gh release upload v597-build RFlix_v597-aligned-signed.apk
+          gh release delete v598-build --yes 2>/dev/null || true
+          gh release create v598-build \
+            --title "RFlix v598 - Live TV OSD zoom fix + category hide fix + settings D-pad" \
+            --notes "OSD no longer causes zoom on zap. Category hide no longer breaks channel list. Settings D-pad fully navigable."
+          gh release upload v598-build RFlix_v598-aligned-signed.apk

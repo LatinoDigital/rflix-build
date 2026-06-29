@@ -21463,7 +21463,7 @@ var StalkerPortal = (function(){
     var card = document.getElementById('ltv-settings-card');
     var tabs = ['Channels','VOD Series','VOD Movies','Categories Filter','Language Filter','Player','Font Size','EPG Sources','Playlists','Backup / Restore','Appearance'];
 
-    function switchHtml(on){ return '<button class="ltv-switch'+(on?' on':'')+'" tabindex="-1"></button>'; }
+    function switchHtml(on){ return '<button class="ltv-switch'+(on?' on':'')+'" tabindex="0"></button>'; }
     function bindSwitch(node, getter, setter){ node.addEventListener('click', function(){ var v = !getter(); setter(v); node.classList.toggle('on', v); }); }
     function radioGroup(opts, currentVal, onChange){
       var html = '<div class="ltv-radio-grp">' + opts.map(function(o){
@@ -21627,7 +21627,10 @@ var StalkerPortal = (function(){
     /* ---- TAB 3: CATEGORIES FILTER ---- */
     function tabCategories(){
       var hiddenCats = LTV_CFG.get('hiddenCategories') || {};
-      var cats = categoriesList().filter(function(c){ return c.id !== 'all'; });
+      // Use state.genres directly (all categories, not filtered)
+      // categoriesList() already hides categories so using it here
+      // causes hidden cats to vanish from the list mid-session
+      var cats = (state.genres||[]).filter(function(c){ return c.id !== 'all' && (state.byGenre[c.id]||[]).length; });
       var hiddenCount = cats.filter(function(c){ return hiddenCats[c.id]; }).length;
       var rows = cats.map(function(c){
         var on = !hiddenCats[c.id];
@@ -21657,8 +21660,14 @@ var StalkerPortal = (function(){
               if(_hc[id]) delete _hc[id]; else _hc[id] = true;
               LTV_CFG.set('hiddenCategories', _hc);
               sw.classList.toggle('on', !_hc[id]);
+              // If we just hid the active category, reset to 'all'
+              if(_hc[id] && state.activeGenre === id){
+                state.activeGenre = 'all';
+                state._catIdx = 0;
+              }
               applySettings();
-              renderCats(); // Immediately update sidebar to remove/restore the category
+              renderCats();
+              renderChannels();
             });
         });
         // Bulk category buttons
@@ -21978,7 +21987,13 @@ var StalkerPortal = (function(){
     var _stTabs = [];
 
     function _stGetTabs(){ return Array.prototype.slice.call(card.querySelectorAll('.ltv-tab')); }
-    function _stGetBody(){ return Array.prototype.slice.call(document.getElementById('ltv-tab-body').querySelectorAll('input,button,select,.ltv-switch,.ltv-radio,.ltv-row-item,[tabindex]')).filter(function(el){ return el.offsetParent!==null && !el.disabled; }); }
+    function _stGetBody(){
+      var body=document.getElementById('ltv-tab-body');
+      if(!body) return [];
+      return Array.prototype.slice.call(body.querySelectorAll('input,button,select,.ltv-switch,.ltv-radio,.ltv-btn,.ltv-btn-primary,[tabindex="0"]')).filter(function(el){
+        return el.offsetParent!==null && !el.disabled && el.tabIndex>=0;
+      });
+    }
 
     function _stFocusTab(idx){
       _stTabs = _stGetTabs();
