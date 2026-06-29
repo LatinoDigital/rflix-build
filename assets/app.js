@@ -17798,7 +17798,7 @@ document.addEventListener('keydown',function(e){
   
   // Main navigation
   if(S.inMenu){
-    var navs=Array.from($$('.nav-item'));
+    var navs=Array.from($$('.nav-item')).filter(function(n){return n.offsetParent!==null&&n.style.display!=='none';});
     var cur=document.activeElement;
     var idx=navs.indexOf(cur);
     if(e.key==='ArrowUp'&&idx>0){e.preventDefault();navs[idx-1].focus()}
