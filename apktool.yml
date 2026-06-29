@@ -27,5 +27,5 @@ usesFramework:
   tag: null
 version: 2.7.0-dirty
 versionInfo:
-  versionCode: '525'
-  versionName: 5.64-Layouts
+  versionCode: '604'
+  versionName: 6.04
