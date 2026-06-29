@@ -12,12 +12,6 @@ jobs:
       - name: Clone source
         run: git clone --depth 1 https://github.com/LatinoDigital/rflix-build.git .
 
-      - name: Verify files
-        run: |
-          ls -la
-          ls -lh rflix-release.keystore
-          java -version
-
       - name: Download tools
         run: |
           wget -q https://github.com/iBotPeaches/Apktool/releases/download/v2.9.3/apktool_2.9.3.jar -O apktool.jar
@@ -27,21 +21,22 @@ jobs:
         run: tar xzf lib_bundle.tar.gz
 
       - name: Build APK
-        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v591.apk
+        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v592.apk
 
       - name: Sign APK
         run: |
           java -jar uber-apk-signer.jar \
-            --apks RFlix_v591.apk \
+            --apks RFlix_v592.apk \
             --ks rflix-release.keystore \
             --ksAlias rflix --ksPass rflix123 --ksKeyPass rflix123 -o .
-          ls -lh RFlix_v591-aligned-signed.apk
+          ls -lh RFlix_v592-aligned-signed.apk
 
-      - name: Create release and upload
+      - name: Create release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete v591-build --yes 2>/dev/null || true
-          gh release create v591-build --title "RFlix v591 Signed APK" --notes "Latest signed build"
-          gh release upload v591-build RFlix_v591-aligned-signed.apk
-          echo "APK uploaded to release!"
+          gh release delete v592-build --yes 2>/dev/null || true
+          gh release create v592-build --title "RFlix v592 - VOD Player Controls" \
+            --notes "Dialog Boost, Playback Speed, Skip Intro, A-B Repeat, Seek controls"
+          gh release upload v592-build RFlix_v592-aligned-signed.apk
+          echo "APK uploaded!"
