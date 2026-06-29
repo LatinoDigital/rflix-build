@@ -4988,6 +4988,22 @@ function loadRows(section){
       // Home: only Trakt-synced rows (Up Next + Continue Unfinished Movies).
       // Popular Movies / Popular Series removed — they belong in their own sections.
 
+      // Append Trakt custom list rows pinned to Home
+      try{
+        var _tlCfg=TraktLists.getCfg();
+        var _tlKeys=Object.keys(_tlCfg).filter(function(k){return _tlCfg[k]&&_tlCfg[k].home;});
+        if(_tlKeys.length){
+          return Promise.all(_tlKeys.map(function(lid){
+            var isWl=(lid==='watchlist');
+            return TraktLists.fetchItems(lid,isWl).then(function(items){
+              return (items&&items.length)?{title:'⭐ '+(_tlCfg[lid].name||lid),items:items}:null;
+            }).catch(function(){return null;});
+          })).then(function(extra){
+            (extra||[]).forEach(function(r){if(r)rows.push(r);});
+            return rows;
+          });
+        }
+      }catch(_eTLH){}
       return rows;
     }
 
@@ -5951,6 +5967,24 @@ function navigatePreview(sec){
   $$('.nav-item').forEach(function(b){b.classList.toggle('active',b.dataset.nav===sec)});
   if(sec==='search' || sec==='settings' || sec==='discover') return; // don't auto-open modals / discover preview
   S.section=sec;
+  if(sec==='trakt-lists'){
+    try{
+      var _tlSCfg=TraktLists.getCfg();
+      var _tlSecKeys=Object.keys(_tlSCfg).filter(function(k){return _tlSCfg[k]&&_tlSCfg[k].section;});
+      if(!_tlSecKeys.length){toast('No lists in Trakt Lists section. Go to Settings → Sync to add some.','info');return;}
+      Promise.all(_tlSecKeys.map(function(lid){
+        var isWl=(lid==='watchlist');
+        return TraktLists.fetchItems(lid,isWl).then(function(items){
+          return (items&&items.length)?{title:'⭐ '+(_tlSCfg[lid].name||lid),items:items}:null;
+        }).catch(function(){return null;});
+      })).then(function(rows){
+        var valid=(rows||[]).filter(Boolean);
+        if(valid.length) renderRows(valid,'trakt-lists');
+        else toast('No items in your Trakt lists','info');
+      });
+    }catch(_eTLN){}
+    return;
+  }
   // HOME-only loading logo behaviour for sidebar preview navigation
   try{
 if(sec==='home'){
@@ -17937,6 +17971,12 @@ function setup(){
   try{$('btn-torbox-mode').onclick=function(){Settings.toggleTorBoxMode()};}catch(e){}
   try{$('trakt-row').onclick=function(){Trakt.auth()};}catch(e){}
   try{$('btn-trakt').onclick=function(){Trakt.auth()};}catch(e){}
+  try{
+    var _tlSec=document.getElementById('trakt-lists-section');
+    if(_tlSec) _tlSec.style.display=(S.cfg&&S.cfg.traktToken)?'':'none';
+    var _tlRefBtn=document.getElementById('btn-trakt-lists-refresh');
+    if(_tlRefBtn) _tlRefBtn.onclick=function(){TraktLists.renderUI();};
+  }catch(_eTL){}
 
   try{$('tmdbkey-row').onclick=function(){Settings.setTMDBKey()};}catch(e){}
   try{$('btn-tmdb-key').onclick=function(){Settings.setTMDBKey()};}catch(e){}
@@ -25773,6 +25813,13 @@ try{ window.IptvVodBrowser = IptvVodBrowser; }catch(_eVB){}
   setTimeout(patchNav, 800);
   setTimeout(patchNav, 2000);
   try{ VodControls.init(); }catch(_eVC){}
+  try{
+    var _tlNavEl=document.getElementById('nav-trakt-lists');
+    if(_tlNavEl){
+      var _tlHasSec=Object.values(TraktLists.getCfg()||{}).some(function(v){return v&&v.section;});
+      _tlNavEl.style.display=_tlHasSec?'':'none';
+    }
+  }catch(_eTLN2){}
 })();
 
 /* ── BUG 4: SelectModal (icon packs / auto-trailer delay) — D-pad navigates
