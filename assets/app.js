@@ -22094,7 +22094,7 @@ var StalkerPortal = (function(){
       }};
     }
 
-    var tabBuilders = [tabChannels, tabVodSeries, tabVodMovies, tabCategories, tabLanguage, tabPlayer, tabFontSize, tabEpgSources, tabPlaylists, tabBackup, tabAppearance];
+    var tabBuilders = [tabChannels, tabVodSeries, tabVodMovies, tabCategories, tabLanguage, tabPlayer, tabFontSize, tabEpgSources, tabPlaylists, tabBackup, tabAppearance, tabTraktLists];
 
     function renderTab(i){
       Array.prototype.forEach.call(card.querySelectorAll('.ltv-tab'), function(x,xi){ x.classList.toggle('active', xi===i); });

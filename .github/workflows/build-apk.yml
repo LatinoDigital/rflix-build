@@ -15,18 +15,18 @@ jobs:
       - name: Restore native libs
         run: tar xzf lib_bundle.tar.gz
       - name: Build APK
-        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v602.apk
+        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v603.apk
       - name: Sign APK
         run: |
-          java -jar uber-apk-signer.jar --apks RFlix_v602.apk \
+          java -jar uber-apk-signer.jar --apks RFlix_v603.apk \
             --ks rflix-release.keystore --ksAlias rflix \
             --ksPass rflix123 --ksKeyPass rflix123 -o .
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete v602-build --yes 2>/dev/null || true
-          gh release create v602-build \
-            --title "RFlix v602 - Full verified build (v595-v601)" \
-            --notes "All features verified present: TorBox first, hardware audio, IntroDb skip intro, auto-skip toggle, category hide fix, internal player default, LTV reorder, Trakt Lists"
-          gh release upload v602-build RFlix_v602-aligned-signed.apk
+          gh release delete v603-build --yes 2>/dev/null || true
+          gh release create v603-build \
+            --title "RFlix v603 - Fixed long-press OK + Trakt Lists in LTV settings" \
+            --notes "Long-press OK uses keydown repeat (no keyup needed). Trakt Lists tab added to Live TV settings overlay."
+          gh release upload v603-build RFlix_v603-aligned-signed.apk
