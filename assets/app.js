@@ -10121,7 +10121,7 @@ Sources._providerDefs=[
 ];
 Sources._getProviderOrder=function(){
   try{var s=Stor.get('provider_order',null);if(s&&Array.isArray(s)&&s.length)return s;}catch(_e){}
-  return['rd','torbox','aio','ws','embed','iptv'];
+  return['torbox','aio','ws','rd','iptv','embed'];
 };
 Sources._getProviderHidden=function(){
   try{return Stor.get('provider_hidden',[])||[];}catch(_e){return[];}
@@ -10333,7 +10333,7 @@ function renderSources(keepFocus){
     if(q==='720p') return 12;
     return 6;
   }
-  function badAudio(a){ return (a==='EAC3'||a==='AC3'||a==='DTS'||a==='TRUEHD'); }
+  function badAudio(a){ return false; } // Android TV hardware decodes all formats - let it try
 
   // Simple, deterministic score for ordering within any filter view
   function score(src){
@@ -10555,7 +10555,7 @@ function renderSources(keepFocus){
   });
 
   // Sorting
-  var _po=Sources._getProviderOrder?Sources._getProviderOrder():['rd','torbox','aio','ws','embed','iptv'];
+  var _po=Sources._getProviderOrder?Sources._getProviderOrder():['torbox','aio','ws','rd','iptv','embed'];
   function pRank(p){var i=_po.indexOf(p);return i<0?99:i;}
   function sortFn(a,b){
     var sort=S.cfg.linkSort||'best';
@@ -11122,7 +11122,7 @@ renderSources();
                 return goodAudio(l) && !badAudio(l);
               });
               if(altGood){ src = altGood; toast('Internal player: picked AAC/compatible audio','success'); }
-              else { desiredMode='external'; toast('Internal audio unsupported — opening external player','error'); }
+              else { desiredMode='external'; toast('Playing in external player (audio format)','info'); }
             }
           }
         }catch(_eBad){}
@@ -18122,6 +18122,13 @@ function init(){
     // Restore Details/modal state first so BACK returns where the user expects.
     setTimeout(function(){
       try{ _bootResumeExternal(); }catch(_e){}
+      // Migrate provider order: ensure TorBox is first if user never customised
+      try{
+        var _po=Stor.get('provider_order',null);
+        if(!_po||!_po.length||_po[0]==='rd'){
+          Stor.set('provider_order',['torbox','aio','ws','rd','iptv','embed']);
+        }
+      }catch(_ePO){}
     }, 80);
 
     // Now refresh Home rows in the background (do not block resume).
@@ -18172,6 +18179,13 @@ function init(){
         setTimeout(function(){ S._bootNavLock=false; clearInterval(_bnt); }, 2500);
         console.log('[RFlix] Ready!');
       try{ _bootResumeExternal(); }catch(_e){}
+      // Migrate provider order: ensure TorBox is first if user never customised
+      try{
+        var _po=Stor.get('provider_order',null);
+        if(!_po||!_po.length||_po[0]==='rd'){
+          Stor.set('provider_order',['torbox','aio','ws','rd','iptv','embed']);
+        }
+      }catch(_ePO){}
       },200);
     },600);
     if(S.cfg.traktToken)setTimeout(function(){Trakt.sync()},666);

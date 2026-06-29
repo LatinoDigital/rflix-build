@@ -15,18 +15,17 @@ jobs:
       - name: Restore native libs
         run: tar xzf lib_bundle.tar.gz
       - name: Build APK
-        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v594.apk
+        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v595.apk
       - name: Sign APK
         run: |
-          java -jar uber-apk-signer.jar --apks RFlix_v594.apk \
+          java -jar uber-apk-signer.jar --apks RFlix_v595.apk \
             --ks rflix-release.keystore --ksAlias rflix \
             --ksPass rflix123 --ksKeyPass rflix123 -o .
-          ls -lh RFlix_v594-aligned-signed.apk
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete v594-build --yes 2>/dev/null || true
-          gh release create v594-build --title "RFlix v594 - Smali register fix" \
-            --notes "Fixed VerifyError wide register crashes in PlayerActivity"
-          gh release upload v594-build RFlix_v594-aligned-signed.apk
+          gh release delete v595-build --yes 2>/dev/null || true
+          gh release create v595-build --title "RFlix v595 - TorBox first, audio fix" \
+            --notes "TorBox>AIO>WS>RD>IPTV>Embed. Hardware audio decode enabled."
+          gh release upload v595-build RFlix_v595-aligned-signed.apk
