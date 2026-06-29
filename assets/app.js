@@ -16328,6 +16328,99 @@ var IptvCreds = {
   }
 };
 
+// ===== TRAKT LISTS MODULE =====
+var TraktLists = {
+  _lists: null,
+
+  fetch: function(){
+    if(!S.cfg||!S.cfg.traktToken){ toast('Connect Trakt first','error'); return Promise.reject('no_token'); }
+    var self=this;
+    return Trakt.req('/users/me/lists').then(function(r){return r.json();})
+    .then(function(lists){
+      var out=[{id:'watchlist',name:'Watchlist',item_count:null,isWatchlist:true}];
+      (lists||[]).forEach(function(l){
+        if(l&&l.ids) out.push({id:l.ids.slug||String(l.ids.trakt||''),name:l.name||l.ids.slug||'',item_count:l.item_count||null,isWatchlist:false});
+      });
+      self._lists=out;
+      return out;
+    });
+  },
+
+  getCfg:function(){ return (S.cfg&&S.cfg.traktListsCfg)||{}; },
+  saveCfg:function(cfg){ if(!S.cfg)return; S.cfg.traktListsCfg=cfg; Stor.set('cfg',S.cfg); },
+  isHome:function(id){ var c=this.getCfg(); return !!(c[id]&&c[id].home); },
+  isSection:function(id){ var c=this.getCfg(); return !!(c[id]&&c[id].section); },
+
+  toggle:function(id,name,dest){
+    var cfg=this.getCfg();
+    if(!cfg[id]) cfg[id]={name:name};
+    cfg[id][dest]=!cfg[id][dest];
+    if(!cfg[id].home&&!cfg[id].section) delete cfg[id];
+    this.saveCfg(cfg);
+    try{
+      var _tlNavEl=document.getElementById('nav-trakt-lists');
+      if(_tlNavEl){
+        var _has=Object.values(this.getCfg()).some(function(v){return v&&v.section;});
+        _tlNavEl.style.display=_has?'':'none';
+      }
+    }catch(_e){}
+  },
+
+  fetchItems:function(id,isWatchlist){
+    if(!S.cfg||!S.cfg.traktToken) return Promise.resolve([]);
+    var path=isWatchlist?'/users/me/watchlist':'/users/me/lists/'+id+'/items';
+    return Trakt.req(path).then(function(r){return r.json();})
+    .then(function(items){
+      var out=[];
+      (items||[]).forEach(function(x){
+        var media=x.movie||x.show;
+        if(!media) return;
+        var type=x.movie?'movie':'tv';
+        var tmdbId=media.ids&&media.ids.tmdb;
+        if(!tmdbId) return;
+        out.push({id:tmdbId,media_type:type,title:media.title||'',name:media.title||''});
+      });
+      return out;
+    }).catch(function(){return[];});
+  },
+
+  renderUI:function(){
+    var self=this;
+    var container=document.getElementById('trakt-lists-container');
+    var statusEl=document.getElementById('trakt-lists-status');
+    if(!container) return;
+    if(statusEl) statusEl.textContent='Loading...';
+    self.fetch().then(function(lists){
+      if(statusEl) statusEl.textContent=lists.length+' lists found';
+      container.innerHTML=lists.map(function(l){
+        var homeActive=self.isHome(l.id)?' active':'';
+        var sectActive=self.isSection(l.id)?' active':'';
+        var count=l.item_count?(' <span class="tl-count">'+l.item_count+'</span>'):'';
+        return '<div class="trakt-list-item">'
+          +'<span class="tl-name">'+escHtml(l.name)+'</span>'+count
+          +'<button class="tl-btn'+homeActive+'" data-lid="'+escHtml(String(l.id))+'" data-lname="'+encodeURIComponent(l.name||'')+'" data-dest="home" tabindex="0">+ Home</button>'
+          +'<button class="tl-btn'+sectActive+'" data-lid="'+escHtml(String(l.id))+'" data-lname="'+encodeURIComponent(l.name||'')+'" data-dest="section" tabindex="0">+ Lists</button>'
+          +'</div>';
+      }).join('');
+      container.querySelectorAll('.tl-btn').forEach(function(btn){
+        btn.onclick=function(){
+          var id=btn.dataset.lid;
+          var name=decodeURIComponent(btn.dataset.lname||'');
+          var dest=btn.dataset.dest;
+          TraktLists.toggle(id,name,dest);
+          var isOn=TraktLists['is'+(dest==='home'?'Home':'Section')](id);
+          btn.classList.toggle('active',isOn);
+          toast((isOn?'Added':'Removed')+': '+name,'success');
+          S._homeCache=null;
+        };
+      });
+    }).catch(function(){
+      if(statusEl) statusEl.textContent='Failed to load';
+      if(container) container.innerHTML='<div style="padding:8px;font-size:12px;color:rgba(255,255,255,.5)">Could not load Trakt lists. Make sure Trakt is connected.</div>';
+    });
+  }
+};
+
 var Settings={
   upd:function(){
     $('rd-status').textContent=S.cfg.rdToken?'Connected':'Not connected';
