@@ -1,8 +1,6 @@
 name: Build RFlix APK
-
 on:
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,18 +15,18 @@ jobs:
       - name: Restore native libs
         run: tar xzf lib_bundle.tar.gz
       - name: Build APK
-        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v593.apk
+        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v594.apk
       - name: Sign APK
         run: |
-          java -jar uber-apk-signer.jar --apks RFlix_v593.apk \
+          java -jar uber-apk-signer.jar --apks RFlix_v594.apk \
             --ks rflix-release.keystore --ksAlias rflix \
             --ksPass rflix123 --ksKeyPass rflix123 -o .
-          ls -lh RFlix_v593-aligned-signed.apk
+          ls -lh RFlix_v594-aligned-signed.apk
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete v593-build --yes 2>/dev/null || true
-          gh release create v593-build --title "RFlix v593 - Player Quality + Skip to Next" \
-            --notes "HLS quality fixed, instant next episode, background prefetch"
-          gh release upload v593-build RFlix_v593-aligned-signed.apk
+          gh release delete v594-build --yes 2>/dev/null || true
+          gh release create v594-build --title "RFlix v594 - Smali register fix" \
+            --notes "Fixed VerifyError wide register crashes in PlayerActivity"
+          gh release upload v594-build RFlix_v594-aligned-signed.apk
