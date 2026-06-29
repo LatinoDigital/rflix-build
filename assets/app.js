@@ -11860,6 +11860,30 @@ _teardownDialogFx:function(){
   // Prefetch next episode stream while current is still playing (reduces autoplay gap)
   _prefetching:false,
   _prefetched:null,
+  _playNextFromPrefetch:function(){
+    try{
+      if(!Player._prefetched || !Player._prefetched.url) return;
+      var pf=Player._prefetched;
+      Player._prefetched=null;
+      S.season=pf.season; S.ep=pf.ep;
+      try{CW.add(S.item,S.season,S.ep,0);}catch(_e){}
+      var v=$('video');
+      if(v){
+        $('player-title').textContent=pf.title||'';
+        try{setInlineLogo(S.item,$('player-logo'),$('player-title'),pf.title||'');}catch(_e){}
+        v.src=pf.url;
+        try{v.muted=false;v.volume=1;v.removeAttribute('muted');}catch(_m){}
+        v.play().catch(function(){});
+        Player._skipIntroDismissed=false;
+        Player._nextUpDismissed=false;
+        Player._nextUpShowing=false;
+        Player._prefetching=false;
+        // Start prefetching the episode after this one
+        setTimeout(function(){try{Player._prefetchNextInternal();}catch(_e){}},3000);
+      }
+    }catch(_e){}
+  },
+
   _prefetchNextInternal:function(){
     try{
       if(Player._prefetching) return;
@@ -11879,10 +11903,42 @@ _teardownDialogFx:function(){
         if(nextSeason>totalSeasons){ Player._prefetched=null; Player._prefetching=false; return; }
         Player._getImdb(function(imdb){
           if(!imdb){ Player._prefetched=null; Player._prefetching=false; return; }
-          // Resolve sources for the next episode in the background
-          Torr.get('tv',imdb,nextSeason,nextEp).then(function(st){
+          // Resolve sources using all configured providers (TorBox, RD, AIO)
+          // Silent background fetch - no toasts, no UI changes
+          var _nextTitle=(S.item.title||S.item.name||'');
+          var _nextImdb=imdb;
+
+          // Try to get sources from Sources.fetch (uses user's configured providers)
+          function _trySourcesFetch(){
+            try{
+              if(typeof Sources!=='undefined' && Sources.fetch){
+                Sources.fetch(_nextImdb, nextSeason, nextEp, {silent:true}).then(function(srcs){
+                  if(!srcs||!srcs.length){_tryTorrentio();return;}
+                  var best=srcs[0];
+                  function store(u){
+                    if(u) Player._prefetched={season:nextSeason,ep:nextEp,url:u,title:_nextTitle+' '+fmtSE(nextSeason,nextEp)};
+                    Player._prefetching=false;
+                  }
+                  if(best.url){
+                    // Test if URL is reachable
+                    if(best.url.indexOf('real-debrid.com/d/')>=0||best.url.indexOf('torbox.app')>=0){
+                      store(best.url); return;
+                    }
+                    fetch(best.url,{method:'HEAD',mode:'no-cors'}).then(function(){store(best.url);}).catch(function(){store(best.url);});
+                  }else if(best.hash&&S.cfg&&S.cfg.rdToken){
+                    RD.resolve(best.hash).then(function(u){store(u||null);}).catch(function(){_tryTorrentio();});
+                  }else{_tryTorrentio();}
+                }).catch(function(){_tryTorrentio();});
+                return;
+              }
+            }catch(_e){}
+            _tryTorrentio();
+          }
+
+          function _tryTorrentio(){
+            Torr.get('tv',_nextImdb,nextSeason,nextEp).then(function(st){
             var srcs = Torr.parse(st);
-            if(!srcs || !srcs.length){ Player._prefetched=null; return; }
+            if(!srcs || !srcs.length){ Player._prefetched=null; Player._prefetching=false; return; }
 
             function qScore(q){
               if(!q)return 0;
@@ -11928,6 +11984,8 @@ _teardownDialogFx:function(){
           }).finally(function(){
             Player._prefetching=false;
           });
+          }
+          _trySourcesFetch();
         });
       }
 
@@ -12488,7 +12546,7 @@ _autoPlayNext:function(){
             if(!v.duration || !isFinite(v.duration)) return;
             var rem = v.duration - v.currentTime;
             // Prefetch next episode when ~2min remain (only if not already prefetched)
-            if(!Player._prefetched && rem < 120){ Player._prefetchNextInternal(); }
+            if(!Player._prefetched && !Player._prefetching){ Player._prefetchNextInternal(); }
             // Skip Intro: show from 3s like Netflix
             try{
               var introWindow = Player._introEndSec || Math.min(v.duration*0.25, 240);
@@ -17898,6 +17956,26 @@ try{$('voicezoom-row').onclick=function(){
       var v=$('video'); if(!v) return;
       if(v.paused) v.play().catch(function(){}); else v.pause();
     };
+    // Next Episode OSD button - shows for TV shows, instant play if prefetched
+    try{
+      var _neb=document.getElementById('player-next-ep-btn');
+      if(_neb){
+        if(S.item && S.item.media_type==='tv') _neb.style.display='';
+        _neb.onclick=function(){
+          if(Player._prefetched && Player._prefetched.url){
+            Player._playNextFromPrefetch();
+          } else {
+            toast('Loading next episode...','info');
+            if(!Player._prefetching) Player._prefetchNextInternal();
+            var _w=0, _pi=setInterval(function(){
+              if(Player._prefetched && Player._prefetched.url){ clearInterval(_pi); Player._playNextFromPrefetch(); }
+              else if(++_w>20){ clearInterval(_pi); toast('Next episode not found','error'); }
+            },500);
+          }
+        };
+      }
+    }catch(_neB){}
+
     document.getElementById('player-rew').onclick=function(){
       var v=$('video'); if(!v) return;
       var d=v.duration; v.currentTime=Math.max(0,(v.currentTime||0)-10);
@@ -20843,7 +20921,19 @@ var StalkerPortal = (function(){
     var canNativeHls = !!v.canPlayType && !!v.canPlayType('application/vnd.apple.mpegurl');
     if (isHls && typeof Hls !== 'undefined' && Hls.isSupported() && !canNativeHls) {
       try {
-        var hls = new Hls({ maxBufferLength: 8, lowLatencyMode: true, enableWorker: true });
+        var hls = new Hls({
+          maxBufferLength: 60,
+          maxMaxBufferLength: 120,
+          lowLatencyMode: false,
+          enableWorker: true,
+          startLevel: -1,
+          abrEwmaFastLive: 3,
+          abrEwmaSlowLive: 9,
+          abrEwmaFastVoD: 4,
+          abrEwmaSlowVoD: 15,
+          maxLoadingDelay: 4,
+          nudgeMaxRetry: 5
+        });
         state._hls = hls;
         hls.loadSource(cleanUrl);
         hls.attachMedia(v);
@@ -21101,7 +21191,19 @@ var StalkerPortal = (function(){
     var canNativeHls = !!v.canPlayType && !!v.canPlayType('application/vnd.apple.mpegurl');
     if (isHls && typeof Hls !== 'undefined' && Hls.isSupported() && !canNativeHls) {
       try {
-        var hls = new Hls({ maxBufferLength: 8, lowLatencyMode: true, enableWorker: true });
+        var hls = new Hls({
+          maxBufferLength: 60,
+          maxMaxBufferLength: 120,
+          lowLatencyMode: false,
+          enableWorker: true,
+          startLevel: -1,
+          abrEwmaFastLive: 3,
+          abrEwmaSlowLive: 9,
+          abrEwmaFastVoD: 4,
+          abrEwmaSlowVoD: 15,
+          maxLoadingDelay: 4,
+          nudgeMaxRetry: 5
+        });
         state._hls = hls;
         hls.loadSource(cleanUrl);
         hls.attachMedia(v);
