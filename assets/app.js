@@ -2472,6 +2472,142 @@ function setInlineLogo(it, imgEl, textEl, fallbackText){
   }
 }
 
+// ===== VOD PLAYER CONTROLS =====
+var VodControls = {
+  _abA: null,
+  _abB: null,
+  _introStart: null,
+  _introEnd: null,
+  _speed: 1.0,
+  _boost: 0,
+
+  open: function() {
+    var el = document.getElementById('vod-controls-overlay');
+    if(el){ el.classList.add('open'); try{ document.getElementById('vod-ctrl-close-btn').focus(); }catch(_e){} }
+  },
+
+  close: function() {
+    var el = document.getElementById('vod-controls-overlay');
+    if(el) el.classList.remove('open');
+  },
+
+  isOpen: function() {
+    var el = document.getElementById('vod-controls-overlay');
+    return el && el.classList.contains('open');
+  },
+
+  setBoost: function(level) {
+    this._boost = level;
+    try{ Android.setDialogBoost(level); }catch(_e){}
+    document.querySelectorAll('[data-boost]').forEach(function(b){
+      b.classList.toggle('active', parseInt(b.dataset.boost)===level);
+    });
+    toast(['Off','Light dialog boost','Normal dialog boost','Strong dialog boost','Cinema mode'][level]||'','success');
+  },
+
+  setSpeed: function(speed) {
+    this._speed = speed;
+    try{ Android.setPlaybackSpeed(parseFloat(speed)); }catch(_e){}
+    document.querySelectorAll('[data-speed]').forEach(function(b){
+      b.classList.toggle('active', parseFloat(b.dataset.speed)===parseFloat(speed));
+    });
+    toast('Speed: '+speed+'×','success');
+  },
+
+  seekRelative: function(ms) {
+    try{ Android.seekRelative(ms); }catch(_e){}
+    toast((ms>0?'+':'')+Math.round(ms/1000)+'s','info');
+  },
+
+  setAB_A: function() {
+    try{ this._abA = Android.getPlayerPosition ? Android.getPlayerPosition() : 0; }catch(_e){ this._abA=0; }
+    this._updateABStatus();
+    toast('A-B: Start set','success');
+  },
+
+  setAB_B: function() {
+    try{ this._abB = Android.getPlayerPosition ? Android.getPlayerPosition() : 0; }catch(_e){ this._abB=0; }
+    if(this._abA!==null && this._abB!==null){
+      try{ Android.setABRepeat(this._abA, this._abB); }catch(_e){}
+      toast('A-B repeat active','success');
+    }
+    this._updateABStatus();
+  },
+
+  clearAB: function() {
+    this._abA = null; this._abB = null;
+    try{ Android.setABRepeat(-1,-1); }catch(_e){}
+    this._updateABStatus();
+    toast('A-B repeat cleared','info');
+  },
+
+  markIntroStart: function() {
+    try{ this._introStart = Android.getPlayerPosition ? Android.getPlayerPosition() : 0; }catch(_e){ this._introStart=0; }
+    toast('Intro start marked at '+Math.round(this._introStart/1000)+'s','success');
+  },
+
+  markIntroEnd: function() {
+    try{ this._introEnd = Android.getPlayerPosition ? Android.getPlayerPosition() : 0; }catch(_e){ this._introEnd=0; }
+    if(this._introStart!==null && this._introEnd!==null){
+      try{ Android.setSkipIntroMarker(this._introStart, this._introEnd); }catch(_e){}
+      document.getElementById('skip-intro-btn').classList.add('visible');
+      toast('Skip intro marker saved','success');
+    }
+  },
+
+  clearIntro: function() {
+    this._introStart=null; this._introEnd=null;
+    document.getElementById('skip-intro-btn').classList.remove('visible');
+    toast('Intro marker cleared','info');
+  },
+
+  _updateABStatus: function() {
+    var s = document.getElementById('ab-status');
+    if(!s) return;
+    if(this._abA!==null && this._abB!==null){
+      s.textContent = Math.round(this._abA/1000)+'s→'+Math.round(this._abB/1000)+'s';
+    } else if(this._abA!==null){
+      s.textContent = 'A='+Math.round(this._abA/1000)+'s';
+    } else {
+      s.textContent = '';
+    }
+  },
+
+  init: function() {
+    var self = this;
+    // Dialog boost buttons
+    document.querySelectorAll('[data-boost]').forEach(function(b){
+      b.onclick = function(){ self.setBoost(parseInt(b.dataset.boost)); };
+    });
+    // Speed buttons
+    document.querySelectorAll('[data-speed]').forEach(function(b){
+      b.onclick = function(){ self.setSpeed(b.dataset.speed); };
+    });
+    // Skip buttons
+    var sb30=document.getElementById('skip-back-30'); if(sb30) sb30.onclick=function(){self.seekRelative(-30000);};
+    var sf30=document.getElementById('skip-fwd-30');  if(sf30) sf30.onclick=function(){self.seekRelative(30000);};
+    var sb10=document.getElementById('skip-back-10'); if(sb10) sb10.onclick=function(){self.seekRelative(-10000);};
+    var sf10=document.getElementById('skip-fwd-10');  if(sf10) sf10.onclick=function(){self.seekRelative(10000);};
+    // A-B repeat
+    var aba=document.getElementById('ab-set-a'); if(aba) aba.onclick=function(){self.setAB_A();};
+    var abb=document.getElementById('ab-set-b'); if(abb) abb.onclick=function(){self.setAB_B();};
+    var abc=document.getElementById('ab-clear'); if(abc) abc.onclick=function(){self.clearAB();};
+    // Skip intro marker
+    var is=document.getElementById('intro-mark-start'); if(is) is.onclick=function(){self.markIntroStart();};
+    var ie=document.getElementById('intro-mark-end');   if(ie) ie.onclick=function(){self.markIntroEnd();};
+    var ic=document.getElementById('intro-clear');      if(ic) ic.onclick=function(){self.clearIntro();};
+    // Skip intro button
+    var sib=document.getElementById('skip-intro-btn');
+    if(sib) sib.onclick=function(){
+      try{ Android.skipIntro(); }catch(_e){}
+      sib.classList.remove('visible');
+    };
+    // Close button
+    var cb=document.getElementById('vod-ctrl-close-btn');
+    if(cb) cb.onclick=function(){ self.close(); };
+  }
+};
+
 // ===== CONTINUE WATCHING =====
 var CW={
   load:function(){S.cw=Stor.get('cw',[])},
@@ -25283,6 +25419,7 @@ try{ window.IptvVodBrowser = IptvVodBrowser; }catch(_eVB){}
   // Also patch after a delay in case nav-items are rendered after this script runs
   setTimeout(patchNav, 800);
   setTimeout(patchNav, 2000);
+  try{ VodControls.init(); }catch(_eVC){}
 })();
 
 /* ── BUG 4: SelectModal (icon packs / auto-trailer delay) — D-pad navigates

@@ -56,12 +56,53 @@
 
 # virtual methods
 .method public run()V
-    .locals 4
+    .locals 6
 
     iget-object v0, p0, Lcom/rflix/app/PlayerActivity$startProgressTracking$1;->this$0:Lcom/rflix/app/PlayerActivity;
 
     .line 337
     invoke-static {v0}, Lcom/rflix/app/PlayerActivity;->access$saveProgress(Lcom/rflix/app/PlayerActivity;)V
+
+    # ── Poll PlayerDataCache for pending VOD commands (VOD mode only) ──
+    iget-object v0, p0, Lcom/rflix/app/PlayerActivity$startProgressTracking$1;->this$0:Lcom/rflix/app/PlayerActivity;
+    iget-boolean v1, v0, Lcom/rflix/app/PlayerActivity;->isLiveMode:Z
+    if-nez v1, :poll_skip
+
+    # Check dialog boost command
+    sget-boolean v1, Lcom/rflix/app/PlayerDataCache;->hasDialogBoostCmd:Z
+    if-eqz v1, :check_speed
+    sget v2, Lcom/rflix/app/PlayerDataCache;->pendingDialogBoost:I
+    invoke-virtual {v0, v2}, Lcom/rflix/app/PlayerActivity;->setDialogBoost(I)V
+    const/4 v1, 0x0
+    sput-boolean v1, Lcom/rflix/app/PlayerDataCache;->hasDialogBoostCmd:Z
+
+    :check_speed
+    sget-boolean v1, Lcom/rflix/app/PlayerDataCache;->hasSpeedCmd:Z
+    if-eqz v1, :check_seek
+    sget v2, Lcom/rflix/app/PlayerDataCache;->pendingSpeed:F
+    invoke-virtual {v0, v2}, Lcom/rflix/app/PlayerActivity;->setPlaybackSpeed(F)V
+    const/4 v1, 0x0
+    sput-boolean v1, Lcom/rflix/app/PlayerDataCache;->hasSpeedCmd:Z
+
+    :check_seek
+    sget-boolean v1, Lcom/rflix/app/PlayerDataCache;->hasSeekCmd:Z
+    if-eqz v1, :check_skipin
+    sget-wide v2, Lcom/rflix/app/PlayerDataCache;->pendingSeekOffset:J
+    invoke-virtual {v0, v2, v3}, Lcom/rflix/app/PlayerActivity;->seekRelative(J)V
+    const/4 v1, 0x0
+    sput-boolean v1, Lcom/rflix/app/PlayerDataCache;->hasSeekCmd:Z
+
+    :check_skipin
+    sget-boolean v1, Lcom/rflix/app/PlayerDataCache;->hasSkipIntroCmd:Z
+    if-eqz v1, :poll_skip
+    sget-wide v2, Lcom/rflix/app/PlayerDataCache;->pendingSkipIntroStart:J
+    sget-wide v4, Lcom/rflix/app/PlayerDataCache;->pendingSkipIntroEnd:J
+    invoke-virtual {v0, v2, v3, v4, v5}, Lcom/rflix/app/PlayerActivity;->setSkipIntroMarker(JJ)V
+    const/4 v1, 0x0
+    sput-boolean v1, Lcom/rflix/app/PlayerDataCache;->hasSkipIntroCmd:Z
+
+    :poll_skip
+    # ── End VOD command poll ──
 
     iget-object v0, p0, Lcom/rflix/app/PlayerActivity$startProgressTracking$1;->this$0:Lcom/rflix/app/PlayerActivity;
 

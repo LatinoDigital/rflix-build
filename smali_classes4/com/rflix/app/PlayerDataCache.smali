@@ -74,10 +74,37 @@
 
 .field private static startIndex:I
 
+# VOD feature command fields
+.field public static pendingDialogBoost:I
+.field public static pendingSpeed:F
+.field public static pendingSeekOffset:J
+.field public static pendingSkipIntroStart:J
+.field public static pendingSkipIntroEnd:J
+.field public static hasDialogBoostCmd:Z
+.field public static hasSpeedCmd:Z
+.field public static hasSeekCmd:Z
+.field public static hasSkipIntroCmd:Z
+
 
 # direct methods
 .method static constructor <clinit>()V
-    .locals 1
+    .locals 2
+
+    # Init VOD command fields
+    const/4 v0, 0x0
+    sput v0, Lcom/rflix/app/PlayerDataCache;->pendingDialogBoost:I
+    sput-boolean v0, Lcom/rflix/app/PlayerDataCache;->hasDialogBoostCmd:Z
+    sput-boolean v0, Lcom/rflix/app/PlayerDataCache;->hasSpeedCmd:Z
+    sput-boolean v0, Lcom/rflix/app/PlayerDataCache;->hasSeekCmd:Z
+    sput-boolean v0, Lcom/rflix/app/PlayerDataCache;->hasSkipIntroCmd:Z
+    const v0, 0x3f800000
+    sput v0, Lcom/rflix/app/PlayerDataCache;->pendingSpeed:F
+    const-wide/16 v0, 0x0
+    sput-wide v0, Lcom/rflix/app/PlayerDataCache;->pendingSeekOffset:J
+    sput-wide v0, Lcom/rflix/app/PlayerDataCache;->pendingSkipIntroStart:J
+    sput-wide v0, Lcom/rflix/app/PlayerDataCache;->pendingSkipIntroEnd:J
+
+    # original locals count is 1 - need to reset
 
     new-instance v0, Lcom/rflix/app/PlayerDataCache;
 

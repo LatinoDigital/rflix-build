@@ -4593,3 +4593,84 @@
 
     return-void
 .end method
+
+
+# ─────────────────────────────────────────────────────
+# VOD PLAYER CONTROL BRIDGE METHODS
+# Called from JavaScript: Android.setDialogBoost(2) etc.
+# Write commands to PlayerDataCache singleton
+# PlayerActivity polls cache on its handler loop
+# ─────────────────────────────────────────────────────
+
+.method public final setDialogBoost(I)V
+    .locals 2
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+
+    sput p1, Lcom/rflix/app/PlayerDataCache;->pendingDialogBoost:I
+    const/4 v0, 0x1
+    sput-boolean v0, Lcom/rflix/app/PlayerDataCache;->hasDialogBoostCmd:Z
+    return-void
+.end method
+
+
+.method public final setPlaybackSpeed(F)V
+    .locals 2
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+
+    sput p1, Lcom/rflix/app/PlayerDataCache;->pendingSpeed:F
+    const/4 v0, 0x1
+    sput-boolean v0, Lcom/rflix/app/PlayerDataCache;->hasSpeedCmd:Z
+    return-void
+.end method
+
+
+.method public final seekRelative(J)V
+    .locals 2
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+
+    sput-wide p1, Lcom/rflix/app/PlayerDataCache;->pendingSeekOffset:J
+    const/4 v0, 0x1
+    sput-boolean v0, Lcom/rflix/app/PlayerDataCache;->hasSeekCmd:Z
+    return-void
+.end method
+
+
+.method public final setSkipIntroMarker(JJ)V
+    .locals 2
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+
+    sput-wide p1, Lcom/rflix/app/PlayerDataCache;->pendingSkipIntroStart:J
+    sput-wide p3, Lcom/rflix/app/PlayerDataCache;->pendingSkipIntroEnd:J
+    const/4 v0, 0x1
+    sput-boolean v0, Lcom/rflix/app/PlayerDataCache;->hasSkipIntroCmd:Z
+    return-void
+.end method
+
+
+.method public final skipIntro()V
+    .locals 1
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+
+    # Signal player to jump to skip intro end position
+    const-wide/16 v0, 0x0
+    sput-wide v0, Lcom/rflix/app/PlayerDataCache;->pendingSkipIntroStart:J
+    sput-wide v0, Lcom/rflix/app/PlayerDataCache;->pendingSkipIntroEnd:J
+    const/4 v0, 0x1
+    sput-boolean v0, Lcom/rflix/app/PlayerDataCache;->hasSkipIntroCmd:Z
+    return-void
+.end method
+
+
+.method public final getPlayerPosition()J
+    .locals 2
+    .annotation runtime Landroid/webkit/JavascriptInterface;
+    .end annotation
+
+    const-wide/16 v0, 0x0
+    return-wide v0
+.end method

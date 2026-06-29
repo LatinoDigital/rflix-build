@@ -3735,3 +3735,208 @@
     :cond_0
     return-void
 .end method
+
+
+# ─────────────────────────────────────────────────────
+# VOD-ONLY BRIDGE METHODS (called from JS/WebView)
+# All guard isLiveMode - Live TV paths completely unchanged
+# ─────────────────────────────────────────────────────
+
+.method public setDialogBoost(I)V
+    .locals 4
+
+    iget-boolean v0, p0, Lcom/rflix/app/PlayerActivity;->isLiveMode:Z
+    if-nez v0, :skip
+
+    iput p1, p0, Lcom/rflix/app/PlayerActivity;->dialogBoostLevel:I
+
+    iget-object v1, p0, Lcom/rflix/app/PlayerActivity;->loudnessEnhancer:Landroid/media/audiofx/LoudnessEnhancer;
+    if-eqz v1, :skip
+
+    sparse-switch p1, :sswitch_data_0
+
+    :sswitch_0
+    const/4 v2, 0x0
+    invoke-virtual {v1, v2}, Landroid/media/audiofx/LoudnessEnhancer;->setTargetGain(I)V
+    const/4 v2, 0x0
+    invoke-virtual {v1, v2}, Landroid/media/audiofx/LoudnessEnhancer;->setEnabled(Z)V
+    goto :skip
+
+    :sswitch_1
+    const/16 v2, 0x12c
+    invoke-virtual {v1, v2}, Landroid/media/audiofx/LoudnessEnhancer;->setTargetGain(I)V
+    const/4 v2, 0x1
+    invoke-virtual {v1, v2}, Landroid/media/audiofx/LoudnessEnhancer;->setEnabled(Z)V
+    goto :skip
+
+    :sswitch_2
+    const/16 v2, 0x258
+    invoke-virtual {v1, v2}, Landroid/media/audiofx/LoudnessEnhancer;->setTargetGain(I)V
+    const/4 v2, 0x1
+    invoke-virtual {v1, v2}, Landroid/media/audiofx/LoudnessEnhancer;->setEnabled(Z)V
+    goto :skip
+
+    :sswitch_3
+    const/16 v2, 0x384
+    invoke-virtual {v1, v2}, Landroid/media/audiofx/LoudnessEnhancer;->setTargetGain(I)V
+    const/4 v2, 0x1
+    invoke-virtual {v1, v2}, Landroid/media/audiofx/LoudnessEnhancer;->setEnabled(Z)V
+    goto :skip
+
+    :sswitch_4
+    const/16 v2, 0x4b0
+    invoke-virtual {v1, v2}, Landroid/media/audiofx/LoudnessEnhancer;->setTargetGain(I)V
+    const/4 v2, 0x1
+    invoke-virtual {v1, v2}, Landroid/media/audiofx/LoudnessEnhancer;->setEnabled(Z)V
+
+    :skip
+    return-void
+
+    :sswitch_data_0
+    .sparse-switch
+        0x0 -> :sswitch_0
+        0x1 -> :sswitch_1
+        0x2 -> :sswitch_2
+        0x3 -> :sswitch_3
+        0x4 -> :sswitch_4
+    .end sparse-switch
+.end method
+
+
+.method public setPlaybackSpeed(F)V
+    .locals 3
+
+    iget-boolean v0, p0, Lcom/rflix/app/PlayerActivity;->isLiveMode:Z
+    if-nez v0, :skip
+
+    iput p1, p0, Lcom/rflix/app/PlayerActivity;->playbackSpeed:F
+
+    iget-object v0, p0, Lcom/rflix/app/PlayerActivity;->player:Landroidx/media3/exoplayer/ExoPlayer;
+    if-eqz v0, :skip
+
+    new-instance v1, Landroidx/media3/common/PlaybackParameters;
+    invoke-direct {v1, p1}, Landroidx/media3/common/PlaybackParameters;-><init>(F)V
+    invoke-interface {v0, v1}, Landroidx/media3/exoplayer/ExoPlayer;->setPlaybackParameters(Landroidx/media3/common/PlaybackParameters;)V
+
+    :skip
+    return-void
+.end method
+
+
+.method public seekRelative(J)V
+    .locals 4
+
+    iget-boolean v0, p0, Lcom/rflix/app/PlayerActivity;->isLiveMode:Z
+    if-nez v0, :skip
+
+    iget-object v0, p0, Lcom/rflix/app/PlayerActivity;->player:Landroidx/media3/exoplayer/ExoPlayer;
+    if-eqz v0, :skip
+
+    invoke-interface {v0}, Landroidx/media3/exoplayer/ExoPlayer;->getCurrentPosition()J
+    move-result-wide v2
+    add-long/2addr v2, p1
+    invoke-interface {v0, v2, v3}, Landroidx/media3/exoplayer/ExoPlayer;->seekTo(J)V
+
+    :skip
+    return-void
+.end method
+
+
+.method public setSkipIntroMarker(JJ)V
+    .locals 2
+
+    iget-boolean v0, p0, Lcom/rflix/app/PlayerActivity;->isLiveMode:Z
+    if-nez v0, :skip
+
+    iput-wide p1, p0, Lcom/rflix/app/PlayerActivity;->skipIntroStart:J
+    iput-wide p3, p0, Lcom/rflix/app/PlayerActivity;->skipIntroEnd:J
+    const/4 v0, 0x1
+    iput-boolean v0, p0, Lcom/rflix/app/PlayerActivity;->skipIntroPending:Z
+
+    :skip
+    return-void
+.end method
+
+
+.method public skipIntro()V
+    .locals 4
+
+    iget-boolean v0, p0, Lcom/rflix/app/PlayerActivity;->isLiveMode:Z
+    if-nez v0, :skip
+
+    iget-boolean v0, p0, Lcom/rflix/app/PlayerActivity;->skipIntroPending:Z
+    if-eqz v0, :skip
+
+    iget-object v1, p0, Lcom/rflix/app/PlayerActivity;->player:Landroidx/media3/exoplayer/ExoPlayer;
+    if-eqz v1, :skip
+
+    iget-wide v2, p0, Lcom/rflix/app/PlayerActivity;->skipIntroEnd:J
+    invoke-interface {v1, v2, v3}, Landroidx/media3/exoplayer/ExoPlayer;->seekTo(J)V
+    const/4 v0, 0x0
+    iput-boolean v0, p0, Lcom/rflix/app/PlayerActivity;->skipIntroPending:Z
+
+    :skip
+    return-void
+.end method
+
+
+.method public setABRepeat(JJ)V
+    .locals 2
+
+    iget-boolean v0, p0, Lcom/rflix/app/PlayerActivity;->isLiveMode:Z
+    if-nez v0, :skip
+
+    iput-wide p1, p0, Lcom/rflix/app/PlayerActivity;->abRepeatStart:J
+    iput-wide p3, p0, Lcom/rflix/app/PlayerActivity;->abRepeatEnd:J
+
+    const-wide/16 v0, -0x1
+    cmp-long v0, p1, v0
+    if-eqz v0, :clear
+
+    const/4 v0, 0x1
+    iput-boolean v0, p0, Lcom/rflix/app/PlayerActivity;->abRepeatActive:Z
+    goto :skip
+
+    :clear
+    const/4 v0, 0x0
+    iput-boolean v0, p0, Lcom/rflix/app/PlayerActivity;->abRepeatActive:Z
+
+    :skip
+    return-void
+.end method
+
+
+.method public getPosition()J
+    .locals 2
+
+    const-wide/16 v0, 0x0
+    iget-boolean v1, p0, Lcom/rflix/app/PlayerActivity;->isLiveMode:Z
+    if-nez v1, :skip
+
+    iget-object v1, p0, Lcom/rflix/app/PlayerActivity;->player:Landroidx/media3/exoplayer/ExoPlayer;
+    if-eqz v1, :skip
+
+    invoke-interface {v1}, Landroidx/media3/exoplayer/ExoPlayer;->getCurrentPosition()J
+    move-result-wide v0
+
+    :skip
+    return-wide v0
+.end method
+
+
+.method public getDuration()J
+    .locals 2
+
+    const-wide/16 v0, 0x0
+    iget-boolean v1, p0, Lcom/rflix/app/PlayerActivity;->isLiveMode:Z
+    if-nez v1, :skip
+
+    iget-object v1, p0, Lcom/rflix/app/PlayerActivity;->player:Landroidx/media3/exoplayer/ExoPlayer;
+    if-eqz v1, :skip
+
+    invoke-interface {v1}, Landroidx/media3/exoplayer/ExoPlayer;->getDuration()J
+    move-result-wide v0
+
+    :skip
+    return-wide v0
+.end method
