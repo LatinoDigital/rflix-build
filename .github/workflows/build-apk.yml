@@ -15,18 +15,18 @@ jobs:
       - name: Restore native libs
         run: tar xzf lib_bundle.tar.gz
       - name: Build APK
-        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v599.apk
+        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v600.apk
       - name: Sign APK
         run: |
-          java -jar uber-apk-signer.jar --apks RFlix_v599.apk \
+          java -jar uber-apk-signer.jar --apks RFlix_v600.apk \
             --ks rflix-release.keystore --ksAlias rflix \
             --ksPass rflix123 --ksKeyPass rflix123 -o .
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete v599-build --yes 2>/dev/null || true
-          gh release create v599-build \
-            --title "RFlix v599 - Internal player always used" \
-            --notes "Removed audio codec check that forced external player. Hardware decoder handles all formats."
-          gh release upload v599-build RFlix_v599-aligned-signed.apk
+          gh release delete v600-build --yes 2>/dev/null || true
+          gh release create v600-build \
+            --title "RFlix v600 - Reorder menu + categories with long-press OK" \
+            --notes "Hold OK on menu or category sidebar to enter edit mode. Up/Down to move, OK to confirm, Back to cancel."
+          gh release upload v600-build RFlix_v600-aligned-signed.apk

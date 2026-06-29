@@ -20069,16 +20069,36 @@ var StalkerPortal = (function(){
       + '</div>'
       + '<div class="ltv-menu" id="ltv-menu">'
       +   '<div class="ltv-menu-list" id="ltv-menu-list">'
-      +     '<div class="ltv-menu-item" data-key="search" tabindex="-1"><span>Search</span></div>'
-      +     '<div class="ltv-menu-item active" data-key="livetv" tabindex="-1"><span>Live TV</span></div>'
-      +     '<div class="ltv-menu-item" data-key="vod-movies" tabindex="-1"><span>Movies</span></div>'
-      +     '<div class="ltv-menu-item" data-key="vod-series" tabindex="-1"><span>Series</span></div>'
-      +     '<div class="ltv-menu-item" data-key="mylist" tabindex="-1"><span>My List</span></div>'
+      +     _buildMenuItems()
       +   '</div>'
       +   '<div class="ltv-menu-foot">'
       +     '<div class="ltv-menu-settings" data-key="settings" tabindex="-1"><span class="mi">⚙</span><span>Settings</span></div>'
       +   '</div>'
       + '</div>';
+    function _buildMenuItems(){
+      var defaultItems=[
+        {key:'search',label:'Search'},
+        {key:'livetv',label:'Live TV'},
+        {key:'vod-movies',label:'Movies'},
+        {key:'vod-series',label:'Series'},
+        {key:'mylist',label:'My List'}
+      ];
+      var customOrder=LTV_CFG.get('menuOrder')||[];
+      var items=defaultItems;
+      if(customOrder.length){
+        var ordered=[], used={};
+        customOrder.forEach(function(k){
+          var it=defaultItems.find(function(x){return x.key===k;});
+          if(it){ordered.push(it);used[k]=true;}
+        });
+        defaultItems.forEach(function(it){if(!used[it.key])ordered.push(it);});
+        items=ordered;
+      }
+      return items.map(function(it){
+        return '<div class="ltv-menu-item" data-key="'+it.key+'" tabindex="-1"><span>'+it.label+'</span></div>';
+      }).join('');
+    }
+
     (document.body||document.documentElement).appendChild(root);
 
     // Modal containers
@@ -20685,12 +20705,23 @@ var StalkerPortal = (function(){
   }
   function categoriesList(){
     var hiddenCats = LTV_CFG.get('hiddenCategories') || {};
-    var out = [{id:'all',title:'All Channels'}];
-    state.genres.forEach(function(g){
-      // Exclude hidden categories from sidebar AND ensure they have channels
-      if((state.byGenre[g.id]||[]).length && !hiddenCats[g.id]) out.push(g);
+    var customOrder = LTV_CFG.get('catOrder') || [];
+    var all = {id:'all',title:'All Channels'};
+    var visible = state.genres.filter(function(g){
+      return (state.byGenre[g.id]||[]).length && !hiddenCats[g.id];
     });
-    return out;
+    // Apply custom order if set
+    if(customOrder.length){
+      var ordered = [], used = {};
+      customOrder.forEach(function(id){
+        var g = visible.find(function(x){ return x.id===id; });
+        if(g){ ordered.push(g); used[id]=true; }
+      });
+      // Append any not in custom order
+      visible.forEach(function(g){ if(!used[g.id]) ordered.push(g); });
+      return [all].concat(ordered);
+    }
+    return [all].concat(visible);
   }
 
   /* ---------- Render ---------- */
@@ -22306,6 +22337,7 @@ var StalkerPortal = (function(){
   }
 
   function handleBackShort(){
+      if(state._reorderMode){ _cancelReorderMode(); return; }
     // Don't intercept back when VOD modals are open
     try{
       var _vdTop=document.getElementById('iptv-vod-detail-modal');
@@ -22466,6 +22498,7 @@ var StalkerPortal = (function(){
       }
       if (k==='ArrowUp'||c===38||c===19) {
         ev.preventDefault(); ev.stopPropagation();
+        if(state._reorderMode){ _moveReorderItem(-1); return; }
         if (state.focus==='menu') navMenu('up');
         else if (state.focus==='cats') navCats('up');
         else if (state.focus==='channels') navChannels('up');
@@ -22474,6 +22507,7 @@ var StalkerPortal = (function(){
       }
       if (k==='ArrowDown'||c===40||c===20) {
         ev.preventDefault(); ev.stopPropagation();
+        if(state._reorderMode){ _moveReorderItem(1); return; }
         if (state.focus==='menu') navMenu('down');
         else if (state.focus==='cats') navCats('down');
         else if (state.focus==='channels') navChannels('down');
@@ -22481,29 +22515,109 @@ var StalkerPortal = (function(){
         return;
       }
       if (k==='Enter'||k===' '||k==='Spacebar'||c===13||c===23||c===66||c===62||c===160) {
+        // Action fires on keyup (long-press detection) - just start the timer here
         ev.preventDefault(); ev.stopPropagation();
-        if (state.focus==='menu') activateMenuItem();
-        else if (state.focus==='cats') {
-          // Select channel from cats panel: activate pip but stay in panel
-          setFocus('channels');
-          // pip is now restored but re-open panel immediately so it stays small
-          state.focus = 'cats'; state.catsVisible = true;
-          var _rr = document.getElementById('rf-ltv');
-          if(_rr){ _rr.classList.add('cats-open'); _rr.classList.add('panel-open');
-            setTimeout(function(){try{_syncPipPos();}catch(_){}},50);
-            setTimeout(function(){try{_syncPipPos();}catch(_){}},250);
-          }
-          var _pp = document.getElementById('ltv-pip');
-          var _tb = _rr ? _rr.querySelector('.ltv-topband') : null;
-          var _ns = _rr ? _rr.querySelector('.ltv-now-strip') : null;
-          if(_pp && _tb && _ns) _tb.appendChild(_pp);
-          activatePip();
+        if(!state._okDownAt){
+          state._okDownAt = Date.now();
+          state._okLongFired = false;
+          state._okLongTimer = setTimeout(function(){
+            state._okLongFired = true;
+            state._okDownAt = null;
+            state._okLongTimer = null;
+            if(!state._reorderMode && (state.focus==='menu'||state.focus==='cats')){
+              _enterReorderMode(state.focus);
+            }
+          }, 600);
         }
-        else if (state.focus==='channels') activatePip();
-        else if (state.focus==='epg') openProgramInfo();
         return;
       }
     };
+    // ── Reorder mode: long-press OK on menu/cats to drag items ──
+    function _enterReorderMode(zone){
+      state._reorderMode = zone;
+      state._reorderIdx = zone==='menu' ? (state._menuIdx||0) : (state._catIdx||0);
+      state._reorderOrigIdx = state._reorderIdx;
+      var label = zone==='menu' ? 'Menu item' : 'Category';
+      try{ NotifyCard.show({title:'Edit Mode',subtitle:label+': press Up/Down to move, OK to confirm, Back to cancel',kind:'info',duration:3000}); }catch(_){}
+      _renderReorderHighlight();
+    }
+
+    function _renderReorderHighlight(){
+      var zone = state._reorderMode;
+      if(!zone) return;
+      if(zone==='menu'){
+        var items=document.querySelectorAll('#ltv-menu .ltv-menu-item');
+        items.forEach(function(el,i){
+          el.style.outline = i===state._reorderIdx ? '2px solid var(--accent,#dc2637)' : '';
+          el.style.opacity = i===state._reorderIdx ? '1' : '0.5';
+          el.style.transform = i===state._reorderIdx ? 'scale(1.04)' : '';
+        });
+      } else {
+        var cats=document.querySelectorAll('#ltv-cats-list .ltv-cat');
+        cats.forEach(function(el,i){
+          el.style.outline = i===state._reorderIdx ? '2px solid var(--accent,#dc2637)' : '';
+          el.style.opacity = i===state._reorderIdx ? '1' : '0.5';
+          el.style.transform = i===state._reorderIdx ? 'scale(1.04)' : '';
+        });
+      }
+    }
+
+    function _cancelReorderMode(){
+      state._reorderMode = null;
+      // Clear highlights
+      document.querySelectorAll('#ltv-menu .ltv-menu-item, #ltv-cats-list .ltv-cat').forEach(function(el){
+        el.style.outline=''; el.style.opacity=''; el.style.transform='';
+      });
+      try{ NotifyCard.show({title:'Reorder cancelled',subtitle:'',kind:'info',duration:1200}); }catch(_){}
+    }
+
+    function _confirmReorderItem(){
+      var zone=state._reorderMode;
+      if(!zone){ return; }
+      state._reorderMode=null;
+      // Clear highlights
+      document.querySelectorAll('#ltv-menu .ltv-menu-item, #ltv-cats-list .ltv-cat').forEach(function(el){
+        el.style.outline=''; el.style.opacity=''; el.style.transform='';
+      });
+      try{ NotifyCard.show({title:'Saved','subtitle':'New order saved',kind:'success',duration:1200}); }catch(_){}
+    }
+
+    function _moveReorderItem(dir){
+      var zone=state._reorderMode;
+      if(!zone) return;
+      if(zone==='menu'){
+        var keys=Array.prototype.slice.call(document.querySelectorAll('#ltv-menu .ltv-menu-item')).map(function(el){return el.dataset.key;});
+        var i=state._reorderIdx; var ni=i+dir;
+        if(ni<0||ni>=keys.length) return;
+        // Swap in DOM
+        var list=document.getElementById('ltv-menu-list');
+        var items=list.querySelectorAll('.ltv-menu-item');
+        if(dir>0 && items[i] && items[ni]){
+          list.insertBefore(items[ni], items[i]);
+        } else if(dir<0 && items[i] && items[ni]){
+          list.insertBefore(items[i], items[ni]);
+        }
+        state._reorderIdx=ni;
+        // Save new order
+        var newKeys=Array.prototype.slice.call(document.querySelectorAll('#ltv-menu .ltv-menu-item')).map(function(el){return el.dataset.key;});
+        LTV_CFG.set('menuOrder', newKeys);
+        _renderReorderHighlight();
+      } else {
+        // Category reorder
+        var cl=categoriesList().filter(function(c){return c.id!=='all';});
+        var i2=state._reorderIdx; var ni2=i2+dir;
+        if(ni2<0||ni2>=cl.length) return;
+        // Swap
+        var tmp=cl[i2]; cl[i2]=cl[ni2]; cl[ni2]=tmp;
+        // Save
+        LTV_CFG.set('catOrder', cl.map(function(c){return c.id;}));
+        state._catIdx=ni2;
+        state._reorderIdx=ni2;
+        renderCats();
+        _renderReorderHighlight();
+      }
+    }
+
     // Yellow key (402) / Y key = toggle channel favourite
     var _handleFavKey = function(k, kc){
       if(k==='y' || k==='Y' || kc===402 || k==='MediaTrackNext'){
@@ -22525,10 +22639,38 @@ var StalkerPortal = (function(){
     };
 
     var keyup = function(ev){
-      // No-op in v27.2 — native bridge never fires keyup for BACK; kept so detachKeys symmetric.
       var k = ev.key||''; var c = ev.keyCode||ev.which||0;
       if (k==='Escape'||k==='GoBack'||k==='BrowserBack'||c===4||c===27) {
         if (backLongTimer) { clearTimeout(backLongTimer); backLongTimer = null; }
+      }
+      // OK keyup: if timer still pending, it was a short tap → fire normal action
+      if (k==='Enter'||k===' '||k==='Spacebar'||c===13||c===23||c===66||c===62||c===160) {
+        if(state._okLongTimer){ clearTimeout(state._okLongTimer); state._okLongTimer=null; }
+        if(!state._okLongFired && state._okDownAt){
+          state._okDownAt=null;
+          ev.preventDefault();
+          // Fire the normal OK action
+          if(state._reorderMode){
+            // In reorder mode, OK = confirm current position (stop dragging)
+            _confirmReorderItem();
+          } else if(state.focus==='menu') activateMenuItem();
+          else if(state.focus==='cats'){
+            setFocus('channels');
+            state.focus='cats'; state.catsVisible=true;
+            var _rr=document.getElementById('rf-ltv');
+            if(_rr){_rr.classList.add('cats-open');_rr.classList.add('panel-open');
+              setTimeout(function(){try{_syncPipPos();}catch(_){}},50);
+              setTimeout(function(){try{_syncPipPos();}catch(_){}},250);}
+            var _pp=document.getElementById('ltv-pip');
+            var _tb=_rr?_rr.querySelector('.ltv-topband'):null;
+            var _ns=_rr?_rr.querySelector('.ltv-now-strip'):null;
+            if(_pp&&_tb&&_ns)_tb.appendChild(_pp);
+            activatePip();
+          }
+          else if(state.focus==='channels') activatePip();
+          else if(state.focus==='epg') openProgramInfo();
+        }
+        state._okDownAt=null; state._okLongFired=false;
       }
     };
     document.addEventListener('keydown', keyHandler, true);
