@@ -14,12 +14,15 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Install Java
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq openjdk-17-jdk
+          java -version
 
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+      - name: Clone repo
+        run: |
+          git clone --depth 1 https://github.com/LatinoDigital/rflix-build.git .
+          ls -la
 
       - name: Download tools
         run: |
@@ -43,8 +46,12 @@ jobs:
             --apks RFlix_${{ github.event.inputs.version }}.apk \
             --ks rflix-release.keystore --ksAlias rflix \
             --ksPass rflix123 --ksKeyPass rflix123 -o .
-          ls -lh RFlix_${{ github.event.inputs.version }}-aligned-signed.apk
 
+      - name: Upload artifact
+        run: |
+          ls -lh RFlix_${{ github.event.inputs.version }}-aligned-signed.apk
+          echo "APK built successfully - download from Actions artifacts"
+          
       - uses: actions/upload-artifact@v4
         with:
           name: RFlix-${{ github.event.inputs.version }}
