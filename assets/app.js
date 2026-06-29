@@ -264,6 +264,7 @@ try{var btnTBMode=document.getElementById('btn-torbox-mode');if(btnTBMode)btnTBM
 try{var btnExtPlayer=document.getElementById('btn-external-player');if(btnExtPlayer)btnExtPlayer.onclick=function(){Settings.cycleExternal();};}catch(_e){}
 try{var btnDialogBoost=document.getElementById('btn-dialog-boost');if(btnDialogBoost)btnDialogBoost.onclick=function(){try{var sel=$('dialog-sel');if(sel)sel.value=String(Player._dialogMode||0);}catch(_e){}SelectModal.openFor('dialog-val','dialog-sel','Dialog Boost',function(v){Player._dialogMode=parseInt(v,10)||0;var labels=['Off','Medium','Strong'];$('dialog-val').textContent=labels[Player._dialogMode]||'Off';try{localStorage.setItem('player_dialog_mode',String(Player._dialogMode));}catch(_e){}});};}catch(_e){}
 try{var btnDialogExt=document.getElementById('btn-dialog-external');if(btnDialogExt)btnDialogExt.onclick=function(){Settings.toggleDialogExternal();};}catch(_e){}
+try{var btnAutoSkip=document.getElementById('btn-auto-skip-intro');if(btnAutoSkip)btnAutoSkip.onclick=function(){Settings.toggleAutoSkipIntro();};}catch(_e){}
 try{var btnRowLayout=document.getElementById('btn-row-layout');if(btnRowLayout)btnRowLayout.onclick=function(){Settings.toggleRowLayout();};}catch(_e){}
 try{var btnIconPack=document.getElementById('btn-icon-pack');if(btnIconPack)btnIconPack.onclick=function(){IconPacks.openPicker();};}catch(_e){}
 try{var btnVoiceZoom=document.getElementById('btn-voice-zoom');if(btnVoiceZoom)btnVoiceZoom.onclick=function(){try{var sel=$('voicezoom-sel');if(sel)sel.value=String((S.cfg&&S.cfg.voiceZoomMode)?S.cfg.voiceZoomMode:'auto');}catch(_e){}SelectModal.openFor('voicezoom-val','voicezoom-sel','Voice Zoom',function(v){if(!S.cfg)S.cfg={};S.cfg.voiceZoomMode=v||'auto';var labels={off:'Off',auto:'Auto',always:'Always'};$('voicezoom-val').textContent=labels[v]||'Auto';try{localStorage.setItem('cfg_voiceZoomMode',v);}catch(_e){}});};}catch(_e){}
@@ -359,7 +360,7 @@ try{var _btnVoice=document.getElementById('search-voice-btn');if(_btnVoice)_btnV
       {old:'status-tmdb',new:'tmdbkey-val'}
     ];
     // Create missing status elements that v95 needs
-    var missingIds=['extplayer-val','dialog-val','dialog-sel','dialog-ext-val','rowlayout-val',
+    var missingIds=['extplayer-val','dialog-val','dialog-sel','dialog-ext-val','auto-skip-intro-val','rowlayout-val',
       'voicezoom-val','spoiler-blur-val','spoiler-synopsis-val','autotrailer-val',
       'autotrailer-delay-val','autotrailer-delay-sel','fanartkey-val','tvdbkey-val',
       'torbox-mode','aio-status','alldebrid-status','premiumize-status'];
@@ -12399,6 +12400,7 @@ _autoPlayNext:function(){
     Player._skipIntroDismissed=false;
     Player._introStartSec=null;
     Player._introEndSec=null;
+    Player._pendingAutoSkip=(S.cfg&&S.cfg.autoSkipIntro)?true:false;
     try{if(Player._skipIntroTimer){clearInterval(Player._skipIntroTimer);Player._skipIntroTimer=null;}}catch(_e){}
     Player._nextUpDismissed=false;
     Player._nextUpShowing=false;
@@ -12422,6 +12424,19 @@ _autoPlayNext:function(){
           if(typeof startSec==='number' && typeof endSec==='number' && endSec>startSec){
             Player._introStartSec=startSec;
             Player._introEndSec=endSec;
+            // Auto-skip if enabled and player is currently in the intro window
+            if(S.cfg && S.cfg.autoSkipIntro){
+              try{
+                var _v=$('video');
+                if(_v && _v.currentTime>=startSec && _v.currentTime<endSec){
+                  _v.currentTime=endSec;
+                  Player._skipIntroDismissed=true;
+                } else {
+                  // Will auto-skip when playback reaches intro start
+                  Player._pendingAutoSkip=true;
+                }
+              }catch(_eA){}
+            }
           }
         }
 
@@ -12618,12 +12633,19 @@ _autoPlayNext:function(){
                 var introStart = Player._introStartSec;
                 var introEnd = Player._introEndSec;
                 if(!Player._skipIntroDismissed && v.currentTime>=introStart && v.currentTime<introEnd){
-                  Player._showSkipIntro();
+                  // Auto-skip if setting enabled
+                  if(S.cfg && S.cfg.autoSkipIntro && Player._pendingAutoSkip!==false){
+                    Player._pendingAutoSkip=false;
+                    Player._skipIntroDismissed=true;
+                    v.currentTime=introEnd;
+                    Player._hideSkipIntro();
+                  } else {
+                    Player._showSkipIntro();
+                  }
                 } else if(v.currentTime>=introEnd || Player._skipIntroDismissed || v.currentTime<introStart){
                   Player._hideSkipIntro();
                 }
               } else {
-                // No real intro data - keep button hidden
                 Player._hideSkipIntro();
               }
             }catch(_si){}
@@ -16314,6 +16336,8 @@ var Settings={
       var auto = (S.cfg && S.cfg.forceDialogInternal!==false);
       var ev=$('dialog-ext-val');
       if(ev) ev.textContent = auto ? 'Auto switch to Internal' : 'Allow External (no boost)';
+      var _asiV=$('auto-skip-intro-val');
+      if(_asiV) _asiV.textContent=(S.cfg&&S.cfg.autoSkipIntro)?'On':'Off';
     
       try{
         var vz = (S.cfg && S.cfg.voiceZoomMode) ? S.cfg.voiceZoomMode : 'auto';
@@ -16890,6 +16914,13 @@ var Settings={
     Stor.set('cfg',S.cfg);
     this.upd();
     toast('Player: '+(S.cfg.player==='external'?'External':'Internal'));
+  },
+
+  toggleAutoSkipIntro:function(){
+    S.cfg.autoSkipIntro = !S.cfg.autoSkipIntro;
+    Stor.set('cfg',S.cfg);
+    this.upd();
+    toast(S.cfg.autoSkipIntro ? 'Auto Skip Intro: On' : 'Auto Skip Intro: Off', 'success');
   },
 
   toggleDialogExternal:function(){

@@ -15,18 +15,18 @@ jobs:
       - name: Restore native libs
         run: tar xzf lib_bundle.tar.gz
       - name: Build APK
-        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v596.apk
+        run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v597.apk
       - name: Sign APK
         run: |
-          java -jar uber-apk-signer.jar --apks RFlix_v596.apk \
+          java -jar uber-apk-signer.jar --apks RFlix_v597.apk \
             --ks rflix-release.keystore --ksAlias rflix \
             --ksPass rflix123 --ksKeyPass rflix123 -o .
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete v596-build --yes 2>/dev/null || true
-          gh release create v596-build \
-            --title "RFlix v596 - Real Skip Intro (IntroDb + TorBox)" \
-            --notes "Removed fake TMDB runtime guess. Skip Intro now uses IntroDb.app community timestamps with TorBox fallback. Only shows button when real data exists."
-          gh release upload v596-build RFlix_v596-aligned-signed.apk
+          gh release delete v597-build --yes 2>/dev/null || true
+          gh release create v597-build \
+            --title "RFlix v597 - Auto Skip Intro toggle" \
+            --notes "Settings > Player > Auto Skip Intro on/off toggle"
+          gh release upload v597-build RFlix_v597-aligned-signed.apk
