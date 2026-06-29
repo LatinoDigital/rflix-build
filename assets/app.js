@@ -310,7 +310,7 @@ try{var btnAutoTrailerDelay=document.getElementById('btn-auto-trailer-delay');if
 try{var _bsah=document.getElementById('btn-sidebar-autohide');if(_bsah)_bsah.onclick=function(){var _cv=Stor.get('sidebar_autohide',0);var _nv=_cv?0:1;Stor.set('sidebar_autohide',_nv);var _el=$('sidebar-autohide-val');if(_el){_el.textContent=_nv?'On':'Off';_el.classList.toggle('off',!_nv);}if(!_nv)try{document.body.classList.remove('sidebar-hidden');}catch(_){}};}catch(_e){}
 try{var _btnSoundBoost=document.getElementById('btn-sound-boost');if(_btnSoundBoost)_btnSoundBoost.onclick=function(){Player.toggleSoundBoost();};}catch(_e){}
 try{var _btnBoostQuick=document.getElementById('player-boost-btn');if(_btnBoostQuick)_btnBoostQuick.onclick=function(){Player.toggleSoundBoost();};}catch(_e){}
-try{var _btnSkipIntroEl=document.getElementById('player-skip-intro');if(_btnSkipIntroEl)_btnSkipIntroEl.onclick=function(){try{var _v=$('video');if(_v&&isFinite(_v.duration)){var _skipTo=Player._introEndSec||(Math.min(_v.currentTime+85,_v.duration-2));_v.currentTime=Math.min(_skipTo,_v.duration-2);}}catch(_e){} Player._hideSkipIntro();};}catch(_e){}
+try{var _btnSkipIntroEl=document.getElementById('player-skip-intro');if(_btnSkipIntroEl)_btnSkipIntroEl.onclick=function(){try{var _v=$('video');if(_v&&isFinite(_v.duration)){if(Player._introEndSec===null) return; var _skipTo=Player._introEndSec; _v.currentTime=Math.min(_skipTo,_v.duration-2);}}catch(_e){} Player._hideSkipIntro();};}catch(_e){}
 try{var _btnNUPlay=document.getElementById('player-next-up-play');if(_btnNUPlay)_btnNUPlay.onclick=function(){Player._nextUpPlayNow();};}catch(_e){}
 try{var _btnNUDismiss=document.getElementById('player-next-up-dismiss');if(_btnNUDismiss)_btnNUDismiss.onclick=function(){Player._hideNextUp(true);};}catch(_e){}
 try{ Player._soundBoost=(localStorage.getItem('player_sound_boost')==='1'); Player._updateBoostBtn(); }catch(_e){}
@@ -12402,21 +12402,85 @@ _autoPlayNext:function(){
     try{if(Player._skipIntroTimer){clearInterval(Player._skipIntroTimer);Player._skipIntroTimer=null;}}catch(_e){}
     Player._nextUpDismissed=false;
     Player._nextUpShowing=false;
-    // Fetch TMDB intro timestamps for TV episodes
+    // Fetch REAL intro timestamps: IntroDB first, TorBox fallback
+    // No TMDB runtime guessing - only show skip button if we have real data
+    Player._introStartSec = null;
+    Player._introEndSec = null;
     try{
-      if(S.item && S.item.id && S.season && S.ep){
-        var _tmdbId=S.item.id, _sn=S.season, _ep=S.ep;
-        var _key=getTMDBKey();
-        if(_key){
-          fetch('https://api.themoviedb.org/3/tv/'+_tmdbId+'/season/'+_sn+'/episode/'+_ep+'?api_key='+_key)
-          .then(function(r){return r.json();})
+      if(S.item && S.item.media_type==='tv' && S.season && S.ep){
+        var _fetchSeason=parseInt(S.season,10)||1;
+        var _fetchEp=parseInt(S.ep,10)||1;
+
+        // Step 1: Try IntroDb.app - free, no API key, community-verified
+        var _fetchImdbId=null;
+        try{
+          if(S.item.external_ids&&S.item.external_ids.imdb_id) _fetchImdbId=S.item.external_ids.imdb_id;
+          else if(S.item.imdb_id) _fetchImdbId=S.item.imdb_id;
+        }catch(_e){}
+
+        function _applyIntro(startSec, endSec){
+          if(typeof startSec==='number' && typeof endSec==='number' && endSec>startSec){
+            Player._introStartSec=startSec;
+            Player._introEndSec=endSec;
+          }
+        }
+
+        function _tryTorBoxIntro(){
+          try{
+            if(!S.cfg||!S.cfg.tbToken) return;
+            // TorBox intro endpoint - keyed by file hash or title+season+episode
+            // Use their /api/v1/torrents/intro endpoint if available
+            var _tbBase='https://api.torbox.app/v1/api';
+            fetch(_tbBase+'/torrents/intro?token='+S.cfg.tbToken+
+              '&imdb_id='+(_fetchImdbId||'')+'&season='+_fetchSeason+'&episode='+_fetchEp,
+              {signal:AbortSignal.timeout(4000)})
+            .then(function(r){return r.ok?r.json():null;})
+            .then(function(d){
+              if(d&&d.data&&typeof d.data.intro_start==='number'){
+                _applyIntro(d.data.intro_start, d.data.intro_end);
+              }
+            }).catch(function(){});
+          }catch(_e){}
+        }
+
+        if(_fetchImdbId){
+          // IntroDb: GET /intro?imdb=tt1234567&season=1&episode=1
+          fetch('https://api.introdb.app/intro?imdb='+_fetchImdbId+
+            '&season='+_fetchSeason+'&episode='+_fetchEp,
+            {signal:AbortSignal.timeout(4000)})
+          .then(function(r){return r.ok?r.json():null;})
           .then(function(d){
-            // Use runtime to estimate intro window: intro = 3s to min(runtime*0.3, 120s)
-            if(d && d.runtime && d.runtime>0){
-              Player._introStartSec=3;
-              Player._introEndSec=Math.min(d.runtime*60*0.3, 120);
+            if(d&&typeof d.start==='number'&&typeof d.end==='number'){
+              // IntroDb returns seconds as floats
+              _applyIntro(d.start, d.end);
+            } else {
+              // No IntroDb data - try TorBox
+              _tryTorBoxIntro();
             }
-          }).catch(function(){});
+          }).catch(function(){
+            _tryTorBoxIntro();
+          });
+        } else {
+          // No IMDB ID yet - fetch it then try IntroDb
+          var _tmdbKey=getTMDBKey();
+          if(_tmdbKey && S.item.id){
+            fetch('https://api.themoviedb.org/3/tv/'+S.item.id+'/external_ids?api_key='+_tmdbKey)
+            .then(function(r){return r.json();})
+            .then(function(d){
+              if(d&&d.imdb_id){
+                _fetchImdbId=d.imdb_id;
+                if(S.item) S.item.imdb_id=d.imdb_id;
+                fetch('https://api.introdb.app/intro?imdb='+d.imdb_id+
+                  '&season='+_fetchSeason+'&episode='+_fetchEp,
+                  {signal:AbortSignal.timeout(4000)})
+                .then(function(r2){return r2.ok?r2.json():null;})
+                .then(function(d2){
+                  if(d2&&typeof d2.start==='number') _applyIntro(d2.start, d2.end);
+                  else _tryTorBoxIntro();
+                }).catch(function(){ _tryTorBoxIntro(); });
+              }
+            }).catch(function(){});
+          }
         }
       }
     }catch(_e){}
@@ -12549,11 +12613,17 @@ _autoPlayNext:function(){
             if(!Player._prefetched && !Player._prefetching){ Player._prefetchNextInternal(); }
             // Skip Intro: show from 3s like Netflix
             try{
-              var introWindow = Player._introEndSec || Math.min(v.duration*0.25, 240);
-              var introStart = Player._introStartSec || 3;
-              if(!Player._skipIntroDismissed && v.duration>60 && v.currentTime>=introStart && v.currentTime<introWindow){
-                Player._showSkipIntro();
-              } else if(v.currentTime>=introWindow || Player._skipIntroDismissed){
+              // Only show Skip Intro if we have REAL timestamps (IntroDb or TorBox)
+              if(Player._introStartSec!==null && Player._introEndSec!==null){
+                var introStart = Player._introStartSec;
+                var introEnd = Player._introEndSec;
+                if(!Player._skipIntroDismissed && v.currentTime>=introStart && v.currentTime<introEnd){
+                  Player._showSkipIntro();
+                } else if(v.currentTime>=introEnd || Player._skipIntroDismissed || v.currentTime<introStart){
+                  Player._hideSkipIntro();
+                }
+              } else {
+                // No real intro data - keep button hidden
                 Player._hideSkipIntro();
               }
             }catch(_si){}
