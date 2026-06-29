@@ -210,6 +210,17 @@
 
 .field private zapCommitRunnable:Ljava/lang/Runnable;
 
+# VOD-only feature fields
+.field private dialogBoostEq:Landroid/media/audiofx/Equalizer;
+.field private dialogBoostLevel:I
+.field private playbackSpeed:F
+.field private abRepeatStart:J
+.field private abRepeatEnd:J
+.field private abRepeatActive:Z
+.field private skipIntroStart:J
+.field private skipIntroEnd:J
+.field private skipIntroPending:Z
+
 
 # direct methods
 .method public static synthetic $r8$lambda$-z-06FJvSq1OFqE9Nm740MvkUgI(Lcom/rflix/app/PlayerActivity;)V
