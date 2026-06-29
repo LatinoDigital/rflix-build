@@ -1,7 +1,7 @@
 
 /* ===== RFLIX VERSION CACHE BUST ===== */
 (function(){
-  var RFLIX_VER = '576c';
+  var RFLIX_VER = '605a';
   try{
     var storedVer = localStorage.getItem('rflix_app_ver');
     if(storedVer !== RFLIX_VER){
