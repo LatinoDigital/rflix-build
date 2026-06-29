@@ -10835,7 +10835,7 @@ renderSources();
       }
       if(_s && _s._aio){
         // prefer external player for AIO unless user explicitly chose internal
-        var mode = (S.cfg && S.cfg.player) ? S.cfg.player : 'external';
+        var mode = (S.cfg && S.cfg.player) ? S.cfg.player : 'internal';
         function _launch(u){
           try{
             if(mode==='internal') Player.int(u, _s.title||'AIOStreams', 0);
@@ -11080,7 +11080,7 @@ renderSources();
         if(!src){ resolve(false); return; }
 
         // Player mode preference (may be overridden for specific sources)
-        var desiredMode = (S.cfg && S.cfg.player) ? S.cfg.player : 'external';
+        var desiredMode = (S.cfg && S.cfg.player) ? S.cfg.player : 'internal';
 
         // Webstreamr links are DIRECT click-to-play sources.
         // They must never be passed through Real-Debrid/TorBox "unrestrict"/cache logic.
@@ -11104,29 +11104,8 @@ renderSources();
         try{ CW.add(S.item,S.season,S.ep,Math.max(5,startP||0)); }catch(_eCW){}
 
         // Internal player sound fix: if Internal is selected, prefer AAC/OPUS/VORBIS, else fall back to External for THIS playback.
-        try{
-          var badAudio=function(t){
-            t=String(t||'').toLowerCase();
-            return (t.indexOf('eac3')>=0||t.indexOf('ac3')>=0||t.indexOf('ddp')>=0||t.indexOf('dts')>=0||t.indexOf('truehd')>=0||t.indexOf('atmos')>=0);
-          };
-          var goodAudio=function(t){
-            t=String(t||'').toLowerCase();
-            return (t.indexOf('aac')>=0||t.indexOf('mp4a')>=0||t.indexOf('opus')>=0||t.indexOf('vorbis')>=0);
-          };
-          if(desiredMode==='internal'){
-            var label = (src.title||src.q||'');
-            var needsSwap = badAudio(label) || !goodAudio(label);
-            if(needsSwap){
-              var altGood = (S.sources||[]).find(function(s){
-                if(!s) return false;
-                var l=String(s.title||s.q||'');
-                return goodAudio(l) && !badAudio(l);
-              });
-              if(altGood){ src = altGood; toast('Internal player: picked AAC/compatible audio','success'); }
-              else { desiredMode='external'; toast('Playing in external player (audio format)','info'); }
-            }
-          }
-        }catch(_eBad){}
+        // Android TV hardware decoder handles all audio formats (EAC3/DTS/AC3/Atmos)
+        // No audio-based fallback to external - internal player handles everything
 
         function launch(url){
           try{
