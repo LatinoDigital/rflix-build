@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Clone source
-        run: git clone --depth 1 https://github.com/LatinoDigital/rflix-build.git /home/runner/work/src && cp -r /home/runner/work/src/. .
+        run: git clone --depth 1 https://github.com/LatinoDigital/rflix-build.git .
 
       - name: Download tools
         run: |
@@ -28,20 +28,14 @@ jobs:
       - name: Build APK
         run: java -jar apktool.jar b . --use-aapt2 -o RFlix_v591.apk
 
-      - name: Sign APK
+      - name: Sign and publish
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           java -jar uber-apk-signer.jar \
             --apks RFlix_v591.apk \
             --ks rflix-release.keystore \
-            --ksAlias rflix \
-            --ksPass rflix123 \
-            --ksKeyPass rflix123 \
-            -o .
+            --ksAlias rflix --ksPass rflix123 --ksKeyPass rflix123 -o .
           ls -lh RFlix_v591-aligned-signed.apk
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: RFlix-v591-signed
-          path: RFlix_v591-aligned-signed.apk
-          retention-days: 30
+          gh release create v591-build --title "RFlix v591" --notes "Signed APK" || true
+          gh release upload v591-build RFlix_v591-aligned-signed.apk --clobber
