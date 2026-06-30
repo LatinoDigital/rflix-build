@@ -1537,6 +1537,8 @@
     invoke-virtual {v1, v4}, Landroid/webkit/WebSettings;->setDisplayZoomControls(Z)V
 
     .line 82
+    const/4 v2, 0x2
+
     invoke-virtual {v1, v2}, Landroid/webkit/WebSettings;->setCacheMode(I)V
 
     .line 83
@@ -1631,6 +1633,11 @@
     move-object p1, v2
 
     :cond_2
+    # Force-clear WebView's internal cache before loading - ensures fresh
+    # index.html/CSS/app.js are used on every app start, never stale cached versions
+    const/4 v2, 0x1
+    invoke-virtual {p1, v2}, Landroid/webkit/WebView;->clearCache(Z)V
+
     const-string v1, "file:///android_asset/index.html"
 
     invoke-virtual {p1, v1}, Landroid/webkit/WebView;->loadUrl(Ljava/lang/String;)V
