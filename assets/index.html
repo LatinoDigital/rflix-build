@@ -86,9 +86,9 @@ button{font-family:inherit}
 :root{--glow-pink:var(--accent-70);--glow-purple:var(--accent2-45);--glow-soft:var(--accent-22)}
 
 /* Remove default outlines and apply a consistent premium glow ring */
-:where(button,[role="button"],a,[tabindex],input,select,textarea){outline:none}
-:where(button,[role="button"],a,[tabindex],input,select,textarea):focus,
-:where(button,[role="button"],a,[tabindex],input,select,textarea):focus-visible{
+:where(button,[role="button"],a,[tabindex],input,select,textarea):not(.cast-card){outline:none}
+:where(button,[role="button"],a,[tabindex],input,select,textarea):focus:not(.cast-card),
+:where(button,[role="button"],a,[tabindex],input,select,textarea):focus-visible:not(.cast-card){
   box-shadow:
     0 0 0 2px var(--glow-pink),
     0 0 22px var(--glow-purple),
@@ -382,6 +382,8 @@ body.select-open #app{opacity:.55;filter:blur(0.5px)}
 .cast-photo{width:110px;height:155px;border-radius:10px;background:rgba(255,255,255,.08) center/cover no-repeat}
 .cast-photo.no-photo{display:flex;align-items:center;justify-content:center;font-weight:800;color:rgba(255,255,255,.75);font-size:22px;letter-spacing:1px;text-transform:uppercase}
 .cast-name{font-size:11px;color:#ddd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}
+div.cast-card:focus,
+div.cast-card:focus-visible,
 .cast-card:focus,
 .cast-card:focus-visible{
   transform:scale(1.03);
@@ -391,6 +393,14 @@ body.select-open #app{opacity:.55;filter:blur(0.5px)}
   border:none!important;
   background:transparent!important;
   filter:none!important;
+}
+.cast-card:focus .cast-name,
+.cast-card:focus .cast-role,
+.cast-card:focus-visible .cast-name,
+.cast-card:focus-visible .cast-role{
+  outline:none!important;
+  box-shadow:none!important;
+  border:none!important;
 }
 .cast-card:focus .cast-photo,
 .cast-card:focus-visible .cast-photo{

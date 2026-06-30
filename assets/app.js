@@ -13009,6 +13009,20 @@ window.onVoiceResult = function(text){
           if(window.Search&&typeof Search.do==='function'){
             Search.do(_t);
           }
+          // Dismiss the on-screen keyboard - mirrors what happens when user presses
+          // the physical/on-screen "Go" button after typing manually (blur triggers IME close)
+          try{
+            if(_si3){
+              _si3.blur();
+              // Re-focus the search results area so D-pad/remote can navigate immediately
+              setTimeout(function(){
+                try{
+                  var firstResult = document.querySelector('#search-results .card, #search-results [tabindex]');
+                  if(firstResult && firstResult.focus) firstResult.focus();
+                }catch(_fr){}
+              }, 150);
+            }
+          }catch(_blur){}
         }catch(_ke){
           try{if(window.Search&&Search.do)Search.do(_t);}catch(_sd){}
         }
