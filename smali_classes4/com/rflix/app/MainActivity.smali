@@ -1635,8 +1635,9 @@
     :cond_2
     # Force-clear WebView's internal cache before loading - ensures fresh
     # index.html/CSS/app.js are used on every app start, never stale cached versions
-    const/4 v2, 0x1
-    invoke-virtual {p1, v2}, Landroid/webkit/WebView;->clearCache(Z)V
+    # Use v9 (unused high register) to avoid clobbering v2 which is needed as null below
+    const/4 v9, 0x1
+    invoke-virtual {p1, v9}, Landroid/webkit/WebView;->clearCache(Z)V
 
     const-string v1, "file:///android_asset/index.html"
 
