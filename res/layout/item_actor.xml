@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:background="@drawable/item_focus_selector" android:padding="6.0dip" android:focusable="true" android:focusableInTouchMode="true" android:clickable="true" android:layout_width="110.0dip" android:layout_height="wrap_content" android:layout_marginEnd="12.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/actor_photo" android:background="@drawable/vod_poster_bg" android:layout_width="80.0dip" android:layout_height="80.0dip" android:scaleType="centerCrop" android:contentDescription="Actor photo" />
+    <TextView android:textSize="11.0sp" android:textStyle="bold" android:textColor="@color/text_white" android:ellipsize="end" android:gravity="center" android:id="@id/actor_name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:maxLines="2" />
+    <TextView android:textSize="10.0sp" android:textColor="@color/text_muted" android:ellipsize="end" android:gravity="center" android:id="@id/actor_character" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:maxLines="1" />
+</LinearLayout>

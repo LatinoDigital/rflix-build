@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/item_focus_selector" android:paddingLeft="12.0dip" android:paddingRight="12.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="52.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="12.0sp" android:textColor="#ff888888" android:gravity="center" android:id="@id/channel_number" android:layout_width="32.0dip" android:layout_height="wrap_content" android:text="1" />
+    <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="8.0dip">
+        <TextView android:textSize="13.0sp" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/channel_name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Channel Name" android:maxLines="1" />
+        <TextView android:textSize="11.0sp" android:textColor="#ff888888" android:ellipsize="end" android:id="@id/current_program" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="No information" android:maxLines="1" />
+    </LinearLayout>
+</LinearLayout>

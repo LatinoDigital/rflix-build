@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:id="@id/vod_category_root" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include layout="@layout/menu_expanded" />
+    <LinearLayout android:orientation="horizontal" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+        <FrameLayout android:id="@id/vod_cat_column" android:background="@drawable/vod_cat_column_bg" android:layout_width="@dimen/vod_cat_col_w" android:layout_height="@dimen/vod_cat_col_h" android:layout_marginTop="@dimen/vod_cat_col_y" android:layout_marginStart="@dimen/vod_cat_col_x" android:elevation="2.0dip">
+            <RecyclerView android:id="@id/vod_category_list" android:paddingTop="@dimen/spacing_md" android:paddingBottom="@dimen/spacing_md" android:scrollbars="vertical" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        </FrameLayout>
+        <FrameLayout android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <ImageView android:id="@id/vod_banner_image" android:layout_width="@dimen/banner_w" android:layout_height="@dimen/banner_h" android:layout_marginTop="@dimen/banner_y" android:scaleType="centerCrop" android:layout_marginStart="@dimen/banner_x" />
+            <View android:id="@id/vod_banner_overlay" android:background="@drawable/banner_overlay_gradient" android:layout_width="@dimen/banner_w" android:layout_height="@dimen/banner_h" android:layout_marginTop="@dimen/banner_y" android:layout_marginStart="@dimen/banner_x" />
+            <LinearLayout android:orientation="vertical" android:id="@id/vod_banner_text" android:padding="@dimen/spacing_lg" android:layout_width="600.0dip" android:layout_height="wrap_content" android:layout_marginTop="@dimen/banner_y" android:layout_marginStart="@dimen/banner_x">
+                <TextView android:textSize="@dimen/tivimate_text_h2" android:textStyle="bold" android:textColor="@color/tivimate_white_90" android:ellipsize="end" android:id="@id/vod_banner_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" />
+                <TextView android:textSize="@dimen/tivimate_text_tiny" android:textColor="@color/tivimate_white_75" android:id="@id/vod_banner_rating" android:background="@drawable/rating_badge" android:padding="@dimen/spacing_xs" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_md" />
+                <TextView android:textSize="@dimen/tivimate_text_meta" android:textColor="@color/tivimate_white_60" android:id="@id/vod_banner_meta" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_md" />
+                <TextView android:textSize="@dimen/tivimate_text_body2" android:textColor="@color/tivimate_white_60" android:ellipsize="end" android:id="@id/vod_banner_description" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_md" android:maxLines="4" />
+            </LinearLayout>
+            <FrameLayout android:id="@id/vod_row_zone" android:layout_width="@dimen/row_zone_w" android:layout_height="@dimen/row_zone_h" android:layout_marginTop="@dimen/row_zone_y" android:layout_marginStart="@dimen/row_zone_x">
+                <RecyclerView android:id="@id/vod_expanded_row" android:scrollbars="horizontal" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+            </FrameLayout>
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

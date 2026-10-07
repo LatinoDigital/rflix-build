@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/channel_item_modern" android:paddingLeft="12.0dip" android:paddingTop="6.0dip" android:paddingRight="12.0dip" android:paddingBottom="6.0dip" android:focusable="true" android:clickable="true" android:layout_width="220.0dip" android:layout_height="64.0dip" android:layout_marginLeft="4.0dip" android:layout_marginTop="2.0dip" android:layout_marginRight="4.0dip" android:layout_marginBottom="2.0dip" android:layout_marginHorizontal="4.0dip" android:layout_marginVertical="2.0dip" android:paddingHorizontal="12.0dip" android:paddingVertical="6.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="#ffa0a0a0" android:gravity="center" android:id="@id/channel_number" android:background="@drawable/channel_number_badge" android:layout_width="32.0dip" android:layout_height="32.0dip" android:text="1" />
+    <FrameLayout android:background="@drawable/channel_logo_bg" android:layout_width="44.0dip" android:layout_height="44.0dip" android:layout_marginStart="10.0dip">
+        <ImageView android:layout_gravity="center" android:id="@id/channel_logo" android:layout_width="40.0dip" android:layout_height="40.0dip" android:scaleType="fitCenter" />
+    </FrameLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="12.0dip">
+        <TextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/channel_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Channel Name" android:maxLines="1" />
+        <TextView android:textSize="11.0sp" android:textColor="#ff606060" android:ellipsize="end" android:id="@id/channel_now_playing" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="Now playing..." android:maxLines="1" />
+    </LinearLayout>
+    <ImageView android:id="@id/catchup_icon" android:visibility="gone" android:layout_width="18.0dip" android:layout_height="18.0dip" android:src="@drawable/ic_dvr" android:tint="#ffb71c1c" />
+</LinearLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:background="#dd000000" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:layout_gravity="start" android:orientation="vertical" android:background="@drawable/premium_sidebar_bg" android:layout_width="340.0dip" android:layout_height="fill_parent" android:elevation="32.0dip">
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:background="@drawable/premium_logo_bg" android:paddingTop="40.0dip" android:paddingBottom="40.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingVertical="40.0dip">
+            <ImageView android:id="@id/sidebar_logo" android:layout_width="96.0dip" android:layout_height="96.0dip" android:src="@drawable/ic_rflix_heart_logo" android:scaleType="fitCenter" android:elevation="8.0dip" />
+            <TextView android:textSize="32.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:text="R'Flix" android:shadowColor="#ffb71c1c" android:shadowDx="0.0" android:shadowDy="4.0" android:shadowRadius="16.0" android:fontFamily="sans-serif-medium" android:elevation="8.0dip" android:letterSpacing="0.15" />
+            <TextView android:textSize="11.0sp" android:textStyle="bold" android:textColor="#ffffd700" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="PREMIUM IPTV" android:alpha="0.9" android:letterSpacing="0.2" />
+        </LinearLayout>
+        <View android:background="@drawable/premium_divider" android:layout_width="fill_parent" android:layout_height="3.0dip" />
+        <ScrollView android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+            <LinearLayout android:orientation="vertical" android:paddingLeft="20.0dip" android:paddingTop="20.0dip" android:paddingRight="20.0dip" android:paddingBottom="20.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingHorizontal="20.0dip" android:paddingVertical="20.0dip">
+                <LinearLayout android:gravity="center_vertical" android:id="@id/menu_search" android:background="@drawable/menu_item_premium" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="60.0dip" android:layout_marginBottom="10.0dip" android:paddingStart="24.0dip" android:elevation="4.0dip">
+                    <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="🔍  Search" android:layout_weight="1.0" android:letterSpacing="0.03" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center_vertical" android:id="@id/menu_tv" android:background="@drawable/menu_item_premium_active" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="60.0dip" android:layout_marginBottom="10.0dip" android:paddingStart="24.0dip" android:elevation="4.0dip">
+                    <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="📺  Live TV" android:layout_weight="1.0" android:letterSpacing="0.03" />
+                    <View android:background="@drawable/premium_accent_bar" android:layout_width="4.0dip" android:layout_height="fill_parent" android:layout_marginEnd="0.0dip" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center_vertical" android:id="@id/menu_movies" android:background="@drawable/menu_item_premium" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="60.0dip" android:layout_marginBottom="10.0dip" android:paddingStart="24.0dip" android:elevation="4.0dip">
+                    <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🎬  Movies" android:letterSpacing="0.03" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center_vertical" android:id="@id/menu_series" android:background="@drawable/menu_item_premium" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="60.0dip" android:layout_marginBottom="10.0dip" android:paddingStart="24.0dip" android:elevation="4.0dip">
+                    <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📖  Series" android:letterSpacing="0.03" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center_vertical" android:id="@id/menu_watchlist" android:background="@drawable/menu_item_premium" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="60.0dip" android:layout_marginBottom="10.0dip" android:paddingStart="24.0dip" android:elevation="4.0dip">
+                    <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⭐  My List" android:letterSpacing="0.03" />
+                </LinearLayout>
+                <View android:background="@drawable/premium_divider_thin" android:layout_width="fill_parent" android:layout_height="2.0dip" android:layout_marginLeft="12.0dip" android:layout_marginTop="12.0dip" android:layout_marginRight="12.0dip" android:layout_marginBottom="12.0dip" android:layout_marginHorizontal="12.0dip" android:layout_marginVertical="12.0dip" />
+                <LinearLayout android:gravity="center_vertical" android:id="@id/menu_settings" android:background="@drawable/menu_item_premium" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="60.0dip" android:paddingStart="24.0dip" android:elevation="4.0dip">
+                    <TextView android:textSize="17.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⚙️  Settings" android:letterSpacing="0.03" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:background="@drawable/premium_footer_bg" android:paddingLeft="24.0dip" android:paddingTop="16.0dip" android:paddingRight="24.0dip" android:paddingBottom="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingHorizontal="24.0dip" android:paddingVertical="16.0dip">
+            <TextView android:textSize="12.0sp" android:textStyle="bold" android:textColor="#ffffd700" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Premium Experience" android:letterSpacing="0.1" />
+            <TextView android:textSize="11.0sp" android:textColor="#ff808080" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="v5.18" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

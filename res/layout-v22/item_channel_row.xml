@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/channel_row_bg" android:paddingLeft="12.0dip" android:paddingTop="4.0dip" android:paddingRight="12.0dip" android:paddingBottom="4.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="72.0dip" android:paddingHorizontal="12.0dip" android:paddingVertical="4.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="14.0sp" android:textColor="#ff888888" android:gravity="center" android:id="@id/channel_number" android:layout_width="36.0dip" android:layout_height="wrap_content" android:text="1" />
+    <ImageView android:id="@id/channel_logo" android:background="#20ffffff" android:layout_width="48.0dip" android:layout_height="48.0dip" android:scaleType="fitCenter" android:layout_marginStart="8.0dip" />
+    <include layout="@layout/epg_catchup_badge" />
+    <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:layout_marginStart="12.0dip">
+        <TextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/channel_name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Channel Name" android:maxLines="1" />
+        <TextView android:textSize="13.0sp" android:textColor="#ffaaaaaa" android:ellipsize="end" android:id="@id/now_program" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="Current Program" android:maxLines="1" />
+        <ProgressBar android:id="@id/program_progress" android:layout_width="fill_parent" android:layout_height="3.0dip" android:layout_marginTop="4.0dip" android:max="100" android:progress="0" android:progressDrawable="@drawable/progress_channel" style="@android:style/Widget.ProgressBar.Horizontal" />
+    </LinearLayout>
+</LinearLayout>

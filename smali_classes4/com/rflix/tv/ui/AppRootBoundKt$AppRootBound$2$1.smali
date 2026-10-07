@@ -1,0 +1,113 @@
+.class final Lcom/rflix/tv/ui/AppRootBoundKt$AppRootBound$2$1;
+.super Lkotlin/jvm/internal/Lambda;
+.source "AppRootBound.kt"
+
+# interfaces
+.implements Lkotlin/jvm/functions/Function1;
+
+
+# annotations
+.annotation system Ldalvik/annotation/EnclosingMethod;
+    value = Lcom/rflix/tv/ui/AppRootBoundKt;->AppRootBound(Lcom/rflix/tv/player/PlayerManager;Lcom/rflix/tv/repository/LiveTvRepositoryImpl;Lcom/rflix/tv/repository/VodRepositoryImpl;Lcom/rflix/tv/settings/SettingsStore;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+.end annotation
+
+.annotation system Ldalvik/annotation/InnerClass;
+    accessFlags = 0x18
+    name = null
+.end annotation
+
+.annotation system Ldalvik/annotation/Signature;
+    value = {
+        "Lkotlin/jvm/internal/Lambda;",
+        "Lkotlin/jvm/functions/Function1<",
+        "Landroid/content/Context;",
+        "Landroidx/media3/ui/PlayerView;",
+        ">;"
+    }
+.end annotation
+
+.annotation system Ldalvik/annotation/SourceDebugExtension;
+    value = "SMAP\nAppRootBound.kt\nKotlin\n*S Kotlin\n*F\n+ 1 AppRootBound.kt\ncom/rflix/tv/ui/AppRootBoundKt$AppRootBound$2$1\n+ 2 fake.kt\nkotlin/jvm/internal/FakeKt\n*L\n1#1,95:1\n1#2:96\n*E\n"
+.end annotation
+
+.annotation runtime Lkotlin/Metadata;
+    d1 = {
+        "\u0000\u000e\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\u0010\u0000\u001a\u00020\u00012\u0006\u0010\u0002\u001a\u00020\u0003H\n\u00a2\u0006\u0002\u0008\u0004"
+    }
+    d2 = {
+        "<anonymous>",
+        "Landroidx/media3/ui/PlayerView;",
+        "ctx",
+        "Landroid/content/Context;",
+        "invoke"
+    }
+    k = 0x3
+    mv = {
+        0x1,
+        0x9,
+        0x0
+    }
+    xi = 0x30
+.end annotation
+
+
+# instance fields
+.field final synthetic $playerManager:Lcom/rflix/tv/player/PlayerManager;
+
+
+# direct methods
+.method constructor <init>(Lcom/rflix/tv/player/PlayerManager;)V
+    .locals 0
+
+    iput-object p1, p0, Lcom/rflix/tv/ui/AppRootBoundKt$AppRootBound$2$1;->$playerManager:Lcom/rflix/tv/player/PlayerManager;
+
+    const/4 p1, 0x1
+
+    invoke-direct {p0, p1}, Lkotlin/jvm/internal/Lambda;-><init>(I)V
+
+    return-void
+.end method
+
+
+# virtual methods
+.method public final invoke(Landroid/content/Context;)Landroidx/media3/ui/PlayerView;
+    .locals 1
+
+    const-string v0, "ctx"
+
+    invoke-static {p1, v0}, Lkotlin/jvm/internal/Intrinsics;->checkNotNullParameter(Ljava/lang/Object;Ljava/lang/String;)V
+
+    .line 50
+    new-instance v0, Landroidx/media3/ui/PlayerView;
+
+    invoke-direct {v0, p1}, Landroidx/media3/ui/PlayerView;-><init>(Landroid/content/Context;)V
+
+    iget-object p1, p0, Lcom/rflix/tv/ui/AppRootBoundKt$AppRootBound$2$1;->$playerManager:Lcom/rflix/tv/player/PlayerManager;
+
+    invoke-virtual {p1}, Lcom/rflix/tv/player/PlayerManager;->getPlayer()Landroidx/media3/exoplayer/ExoPlayer;
+
+    move-result-object p1
+
+    check-cast p1, Landroidx/media3/common/Player;
+
+    invoke-virtual {v0, p1}, Landroidx/media3/ui/PlayerView;->setPlayer(Landroidx/media3/common/Player;)V
+
+    const/4 p1, 0x0
+
+    invoke-virtual {v0, p1}, Landroidx/media3/ui/PlayerView;->setUseController(Z)V
+
+    return-object v0
+.end method
+
+.method public bridge synthetic invoke(Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    .line 50
+    check-cast p1, Landroid/content/Context;
+
+    invoke-virtual {p0, p1}, Lcom/rflix/tv/ui/AppRootBoundKt$AppRootBound$2$1;->invoke(Landroid/content/Context;)Landroidx/media3/ui/PlayerView;
+
+    move-result-object p1
+
+    return-object p1
+.end method

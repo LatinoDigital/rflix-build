@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/group_item" android:background="@drawable/menu_item_bg" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="@dimen/group_item_height" android:paddingStart="@dimen/group_item_padding_left" android:paddingEnd="@dimen/spacing_lg"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="@dimen/tivimate_text_body" android:textColor="@color/tivimate_white_75" android:ellipsize="end" android:id="@id/menu_label" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="Group" android:maxLines="1" android:layout_weight="1.0" />
+    <TextView android:textSize="@dimen/tivimate_text_tiny" android:textColor="@color/tivimate_white_45" android:id="@id/menu_suffix" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" />
+</LinearLayout>

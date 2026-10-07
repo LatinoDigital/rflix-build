@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="#ff0a0a0f" android:padding="24.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditText android:textSize="18.0sp" android:textColor="#ffffffff" android:textColorHint="#ff666666" android:id="@id/search_input" android:background="@drawable/search_input_bg" android:paddingLeft="20.0dip" android:paddingRight="20.0dip" android:layout_width="fill_parent" android:layout_height="56.0dip" android:hint="Search movies and TV shows..." android:inputType="text" android:imeOptions="actionSearch" android:paddingHorizontal="20.0dip" />
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="24.0dip" android:layout_weight="1.0">
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/results_grid" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        <TextView android:textSize="16.0sp" android:textColor="#ff666666" android:layout_gravity="center" android:id="@id/empty_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Type to search..." />
+        <ProgressBar android:layout_gravity="center" android:id="@id/loading" android:visibility="gone" android:layout_width="48.0dip" android:layout_height="48.0dip" android:indeterminateTint="#ffb71c1c" />
+    </FrameLayout>
+</LinearLayout>

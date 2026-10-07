@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/series_modal_root" android:background="@drawable/modal_bg" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="horizontal" android:padding="@dimen/spacing_lg" android:layout_width="fill_parent" android:layout_height="@dimen/detail_text_h" android:layout_marginTop="@dimen/detail_text_y" android:layout_marginStart="@dimen/detail_text_x">
+        <LinearLayout android:orientation="vertical" android:id="@id/detail_text_block" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <TextView android:textSize="@dimen/tivimate_text_h2" android:textStyle="bold" android:textColor="@color/tivimate_white_90" android:ellipsize="end" android:id="@id/modal_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:maxLines="2" />
+            <TextView android:textSize="@dimen/tivimate_text_meta" android:textColor="@color/tivimate_white_60" android:ellipsize="end" android:id="@id/modal_meta_line" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_md" android:maxLines="1" />
+            <TextView android:textSize="@dimen/tivimate_text_meta" android:textColor="@color/tivimate_white_60" android:ellipsize="end" android:id="@id/modal_cast" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_sm" android:maxLines="1" />
+            <TextView android:textSize="@dimen/tivimate_text_body2" android:textColor="@color/tivimate_white_75" android:ellipsize="end" android:id="@id/modal_synopsis" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_marginTop="@dimen/spacing_md" android:maxLines="5" android:layout_weight="1.0" />
+        </LinearLayout>
+        <ImageView android:id="@id/modal_hero_image" android:layout_width="@dimen/detail_hero_w" android:layout_height="@dimen/detail_hero_h" android:scaleType="centerCrop" android:layout_marginStart="@dimen/spacing_lg" />
+    </LinearLayout>
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/modal_actions" android:layout_width="@dimen/actions_w" android:layout_height="@dimen/actions_h" android:layout_marginTop="@dimen/actions_y" android:spacing="@dimen/action_button_gap" android:layout_marginStart="@dimen/actions_x">
+        <Button android:textSize="@dimen/tivimate_text_body2" android:textColor="@color/tivimate_white_90" android:id="@id/btn_play" android:background="@drawable/action_button_bg" android:padding="@dimen/spacing_lg" android:layout_width="0.0dip" android:layout_height="@dimen/action_button_h" android:text="Play" android:layout_weight="1.0" />
+        <Button android:textSize="@dimen/tivimate_text_body2" android:textColor="@color/tivimate_white_90" android:id="@id/btn_external" android:background="@drawable/action_button_bg" android:padding="@dimen/spacing_lg" android:layout_width="0.0dip" android:layout_height="@dimen/action_button_h" android:text="External" android:layout_weight="1.0" />
+        <Button android:textSize="@dimen/tivimate_text_body2" android:textColor="@color/tivimate_white_90" android:id="@id/btn_trailer" android:background="@drawable/action_button_bg" android:padding="@dimen/spacing_lg" android:layout_width="0.0dip" android:layout_height="@dimen/action_button_h" android:text="Trailer" android:layout_weight="1.0" />
+        <Button android:textSize="@dimen/tivimate_text_body2" android:textColor="@color/tivimate_white_90" android:id="@id/btn_add_list" android:background="@drawable/action_button_bg" android:padding="@dimen/spacing_lg" android:layout_width="0.0dip" android:layout_height="@dimen/action_button_h" android:text="Add List" android:layout_weight="1.0" />
+    </LinearLayout>
+    <FrameLayout android:id="@id/modal_episodes_preview" android:layout_width="@dimen/ep_preview_w" android:layout_height="@dimen/ep_preview_h" android:layout_marginTop="@dimen/ep_preview_y" android:alpha="0.7" android:layout_marginStart="@dimen/ep_preview_x">
+        <LinearLayout android:gravity="bottom" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/season_indicator_y_offset" android:paddingStart="@dimen/spacing_lg" android:paddingEnd="@dimen/spacing_lg">
+            <TextView android:textSize="@dimen/tivimate_text_meta" android:textColor="@color/tivimate_white_60" android:id="@id/season_label" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+            <TextView android:textSize="@dimen/tivimate_text_meta" android:textColor="@color/tivimate_white_60" android:id="@id/season_count" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        </LinearLayout>
+        <RecyclerView android:id="@id/episodes_list" android:scrollbars="horizontal" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+</FrameLayout>

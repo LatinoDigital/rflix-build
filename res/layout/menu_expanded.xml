@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/menu_expanded" android:background="@drawable/menu_bg" android:layout_width="@dimen/menu_full_w" android:layout_height="@dimen/menu_full_h" android:layout_marginTop="@dimen/menu_full_y" android:layout_marginStart="@dimen/menu_full_x" android:elevation="3.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="@dimen/tivimate_text_h3" android:textStyle="bold" android:textColor="@color/tivimate_white_60" android:id="@id/menu_brand" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/menu_brand_padding_top" android:text="tivimate" android:layout_marginStart="@dimen/menu_brand_padding_left" />
+    <RecyclerView android:id="@id/menu_expanded_items" android:scrollbars="none" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/spacing_xl" />
+</FrameLayout>

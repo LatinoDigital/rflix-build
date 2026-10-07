@@ -1,0 +1,211 @@
+.class public final Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;
+.super Ljava/lang/Object;
+.source "LazyBeyondBoundsModifier.kt"
+
+# interfaces
+.implements Landroidx/tv/foundation/lazy/list/LazyLayoutBeyondBoundsState;
+
+
+# annotations
+.annotation runtime Lkotlin/Metadata;
+    d1 = {
+        "\u0000&\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u0008\n\u0002\u0008\u0006\n\u0002\u0010\u000b\n\u0002\u0008\t\n\u0002\u0010\u0002\n\u0000\u0008\u0000\u0018\u00002\u00020\u0001B\u0015\u0012\u0006\u0010\u0002\u001a\u00020\u0003\u0012\u0006\u0010\u0004\u001a\u00020\u0005\u00a2\u0006\u0002\u0010\u0006J\u0008\u0010\u0015\u001a\u00020\u0016H\u0016R\u0011\u0010\u0004\u001a\u00020\u0005\u00a2\u0006\u0008\n\u0000\u001a\u0004\u0008\u0007\u0010\u0008R\u0014\u0010\t\u001a\u00020\u00058VX\u0096\u0004\u00a2\u0006\u0006\u001a\u0004\u0008\n\u0010\u0008R\u0014\u0010\u000b\u001a\u00020\u000c8VX\u0096\u0004\u00a2\u0006\u0006\u001a\u0004\u0008\r\u0010\u000eR\u0014\u0010\u000f\u001a\u00020\u00058VX\u0096\u0004\u00a2\u0006\u0006\u001a\u0004\u0008\u0010\u0010\u0008R\u0014\u0010\u0011\u001a\u00020\u00058VX\u0096\u0004\u00a2\u0006\u0006\u001a\u0004\u0008\u0012\u0010\u0008R\u0011\u0010\u0002\u001a\u00020\u0003\u00a2\u0006\u0008\n\u0000\u001a\u0004\u0008\u0013\u0010\u0014\u00a8\u0006\u0017"
+    }
+    d2 = {
+        "Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;",
+        "Landroidx/tv/foundation/lazy/list/LazyLayoutBeyondBoundsState;",
+        "state",
+        "Landroidx/tv/foundation/lazy/list/TvLazyListState;",
+        "beyondBoundsItemCount",
+        "",
+        "(Landroidx/tv/foundation/lazy/list/TvLazyListState;I)V",
+        "getBeyondBoundsItemCount",
+        "()I",
+        "firstPlacedIndex",
+        "getFirstPlacedIndex",
+        "hasVisibleItems",
+        "",
+        "getHasVisibleItems",
+        "()Z",
+        "itemCount",
+        "getItemCount",
+        "lastPlacedIndex",
+        "getLastPlacedIndex",
+        "getState",
+        "()Landroidx/tv/foundation/lazy/list/TvLazyListState;",
+        "remeasure",
+        "",
+        "tv-foundation_release"
+    }
+    k = 0x1
+    mv = {
+        0x1,
+        0x8,
+        0x0
+    }
+    xi = 0x30
+.end annotation
+
+
+# instance fields
+.field private final beyondBoundsItemCount:I
+
+.field private final state:Landroidx/tv/foundation/lazy/list/TvLazyListState;
+
+
+# direct methods
+.method public constructor <init>(Landroidx/tv/foundation/lazy/list/TvLazyListState;I)V
+    .locals 0
+
+    .line 79
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    iput-object p1, p0, Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;->state:Landroidx/tv/foundation/lazy/list/TvLazyListState;
+
+    iput p2, p0, Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;->beyondBoundsItemCount:I
+
+    return-void
+.end method
+
+
+# virtual methods
+.method public final getBeyondBoundsItemCount()I
+    .locals 1
+
+    iget v0, p0, Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;->beyondBoundsItemCount:I
+
+    return v0
+.end method
+
+.method public getFirstPlacedIndex()I
+    .locals 2
+
+    iget-object v0, p0, Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;->state:Landroidx/tv/foundation/lazy/list/TvLazyListState;
+
+    .line 93
+    invoke-virtual {v0}, Landroidx/tv/foundation/lazy/list/TvLazyListState;->getFirstVisibleItemIndex()I
+
+    move-result v0
+
+    iget v1, p0, Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;->beyondBoundsItemCount:I
+
+    sub-int/2addr v0, v1
+
+    const/4 v1, 0x0
+
+    invoke-static {v1, v0}, Ljava/lang/Math;->max(II)I
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public getHasVisibleItems()Z
+    .locals 1
+
+    iget-object v0, p0, Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;->state:Landroidx/tv/foundation/lazy/list/TvLazyListState;
+
+    .line 91
+    invoke-virtual {v0}, Landroidx/tv/foundation/lazy/list/TvLazyListState;->getLayoutInfo()Landroidx/tv/foundation/lazy/list/TvLazyListLayoutInfo;
+
+    move-result-object v0
+
+    invoke-interface {v0}, Landroidx/tv/foundation/lazy/list/TvLazyListLayoutInfo;->getVisibleItemsInfo()Ljava/util/List;
+
+    move-result-object v0
+
+    check-cast v0, Ljava/util/Collection;
+
+    invoke-interface {v0}, Ljava/util/Collection;->isEmpty()Z
+
+    move-result v0
+
+    xor-int/lit8 v0, v0, 0x1
+
+    return v0
+.end method
+
+.method public getItemCount()I
+    .locals 1
+
+    iget-object v0, p0, Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;->state:Landroidx/tv/foundation/lazy/list/TvLazyListState;
+
+    .line 89
+    invoke-virtual {v0}, Landroidx/tv/foundation/lazy/list/TvLazyListState;->getLayoutInfo()Landroidx/tv/foundation/lazy/list/TvLazyListLayoutInfo;
+
+    move-result-object v0
+
+    invoke-interface {v0}, Landroidx/tv/foundation/lazy/list/TvLazyListLayoutInfo;->getTotalItemsCount()I
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public getLastPlacedIndex()I
+    .locals 3
+
+    .line 96
+    invoke-virtual {p0}, Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;->getItemCount()I
+
+    move-result v0
+
+    add-int/lit8 v0, v0, -0x1
+
+    iget-object v1, p0, Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;->state:Landroidx/tv/foundation/lazy/list/TvLazyListState;
+
+    .line 97
+    invoke-virtual {v1}, Landroidx/tv/foundation/lazy/list/TvLazyListState;->getLayoutInfo()Landroidx/tv/foundation/lazy/list/TvLazyListLayoutInfo;
+
+    move-result-object v1
+
+    invoke-interface {v1}, Landroidx/tv/foundation/lazy/list/TvLazyListLayoutInfo;->getVisibleItemsInfo()Ljava/util/List;
+
+    move-result-object v1
+
+    invoke-static {v1}, Lkotlin/collections/CollectionsKt;->last(Ljava/util/List;)Ljava/lang/Object;
+
+    move-result-object v1
+
+    check-cast v1, Landroidx/tv/foundation/lazy/list/TvLazyListItemInfo;
+
+    invoke-interface {v1}, Landroidx/tv/foundation/lazy/list/TvLazyListItemInfo;->getIndex()I
+
+    move-result v1
+
+    iget v2, p0, Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;->beyondBoundsItemCount:I
+
+    add-int/2addr v1, v2
+
+    invoke-static {v0, v1}, Ljava/lang/Math;->min(II)I
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public final getState()Landroidx/tv/foundation/lazy/list/TvLazyListState;
+    .locals 1
+
+    iget-object v0, p0, Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;->state:Landroidx/tv/foundation/lazy/list/TvLazyListState;
+
+    return-object v0
+.end method
+
+.method public remeasure()V
+    .locals 1
+
+    iget-object v0, p0, Landroidx/tv/foundation/lazy/list/LazyListBeyondBoundsState;->state:Landroidx/tv/foundation/lazy/list/TvLazyListState;
+
+    .line 85
+    invoke-virtual {v0}, Landroidx/tv/foundation/lazy/list/TvLazyListState;->getRemeasurement$tv_foundation_release()Landroidx/compose/ui/layout/Remeasurement;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_0
+
+    invoke-interface {v0}, Landroidx/compose/ui/layout/Remeasurement;->forceRemeasure()V
+
+    :cond_0
+    return-void
+.end method

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@drawable/item_focus_selector" android:padding="4.0dip" android:focusable="true" android:clickable="true" android:layout_width="140.0dip" android:layout_height="wrap_content" android:layout_marginEnd="12.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/poster_image" android:background="#22ffffff" android:layout_width="132.0dip" android:layout_height="198.0dip" android:scaleType="centerCrop" />
+    <TextView android:textSize="12.0sp" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/poster_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip" android:maxLines="1" />
+    <TextView android:textSize="11.0sp" android:textColor="#ffffd700" android:id="@id/poster_rating" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" />
+</LinearLayout>

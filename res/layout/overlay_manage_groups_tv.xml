@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:background="#88000000" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:layout_gravity="end" android:orientation="vertical" android:background="#f0151520" android:layout_width="400.0dip" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="vertical" android:background="#20ffffff" android:padding="24.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textSize="20.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Manage groups • TV" />
+        </LinearLayout>
+        <ScrollView android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+            <LinearLayout android:orientation="vertical" android:padding="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/sorting_option" android:background="@drawable/item_focus_selector" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="64.0dip">
+                    <TextView android:textSize="15.0sp" android:textColor="#ffffffff" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Groups sorting" />
+                    <TextView android:textSize="13.0sp" android:textColor="#ff888888" android:id="@id/sorting_value" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="Manual" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/show_all_option" android:background="@drawable/item_focus_selector" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="52.0dip" android:layout_marginTop="4.0dip">
+                    <TextView android:textSize="15.0sp" android:textColor="#ffffffff" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Show all groups" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/hide_all_option" android:background="@drawable/item_focus_selector" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="52.0dip" android:layout_marginTop="4.0dip">
+                    <TextView android:textSize="15.0sp" android:textColor="#ffffffff" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Hide all groups" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/show_new_option" android:background="@drawable/item_focus_selector" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="52.0dip" android:layout_marginTop="4.0dip">
+                    <TextView android:textSize="15.0sp" android:textColor="#ffffffff" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="Show newly added groups" android:layout_weight="1.0" />
+                    <androidx.appcompat.widget.SwitchCompat android:id="@id/show_new_toggle" android:focusable="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" />
+                </LinearLayout>
+                <TextView android:textSize="12.0sp" android:textColor="#ff888888" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="24.0dip" android:layout_marginBottom="8.0dip" android:text="Groups" android:textAllCaps="true" android:letterSpacing="0.1" />
+                <androidx.recyclerview.widget.RecyclerView android:id="@id/groups_list" android:layout_width="fill_parent" android:layout_height="wrap_content" android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</FrameLayout>

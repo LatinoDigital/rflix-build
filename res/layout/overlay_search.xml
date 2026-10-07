@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/search_overlay" android:background="#ee000000" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:paddingLeft="48.0dip" android:paddingTop="32.0dip" android:paddingRight="48.0dip" android:paddingBottom="24.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" android:paddingEnd="320.0dip">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="20.0dip">
+            <TextView android:textSize="24.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Search" android:shadowColor="#80b71c1c" android:shadowDx="0.0" android:shadowDy="3.0" android:shadowRadius="10.0" android:layout_marginEnd="20.0dip" />
+            <EditText android:textSize="16.0sp" android:textColor="#ffffffff" android:textColorHint="#ff888888" android:id="@id/search_input" android:background="@drawable/menu_item_3d" android:paddingLeft="16.0dip" android:paddingRight="16.0dip" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="0.0dip" android:layout_height="48.0dip" android:hint="Type to search channels, movies, series…" android:singleLine="true" android:layout_weight="1.0" android:inputType="text" android:imeOptions="actionSearch" />
+            <TextView android:textSize="18.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/search_mic" android:background="@drawable/menu_item_3d" android:focusable="true" android:clickable="true" android:layout_width="48.0dip" android:layout_height="48.0dip" android:text="🎤" android:layout_marginStart="12.0dip" />
+        </LinearLayout>
+        <TextView android:textSize="13.0sp" android:textColor="#ff888888" android:id="@id/search_result_count" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8.0dip" />
+        <ProgressBar android:layout_gravity="center" android:id="@id/search_loading" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16.0dip" style="?android:progressBarStyle" />
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/search_results" android:paddingBottom="16.0dip" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
+        <TextView android:textSize="16.0sp" android:textColor="#ff666666" android:gravity="center" android:id="@id/search_empty" android:layout_width="fill_parent" android:layout_height="0.0dip" android:text="Start typing to search" android:layout_weight="1.0" />
+    </LinearLayout>
+</FrameLayout>

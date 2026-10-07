@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape android:shape="rectangle"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/spacing_xs" />
+    <solid android:color="@color/tivimate_white_30" />
+    <padding android:left="@dimen/spacing_md" android:top="@dimen/spacing_xs" android:right="@dimen/spacing_md" android:bottom="@dimen/spacing_xs" />
+</shape>

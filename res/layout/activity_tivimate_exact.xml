@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@id/root" android:background="@android:color/black" android:focusableInTouchMode="true" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.media3.ui.PlayerView android:id="@id/player_view" android:layout_width="fill_parent" android:layout_height="fill_parent" android:keepScreenOn="true" app:surface_type="texture_view" app:use_controller="false" />
+    <FrameLayout android:layout_gravity="start" android:id="@id/panel_categories" android:background="#ff1a1a1a" android:visibility="gone" android:layout_width="520.0dip" android:layout_height="fill_parent" android:translationX="-520.0dip">
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/categories_list" android:padding="16.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <FrameLayout android:id="@id/overlay_guide" android:background="#00000099" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <androidx.recyclerview.widget.RecyclerView android:id="@id/channel_list" android:background="#ff1a1a1a" android:layout_width="240.0dip" android:layout_height="fill_parent" />
+            <androidx.recyclerview.widget.RecyclerView android:id="@id/epg_grid" android:background="#ff2a2a2a" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" />
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout android:layout_gravity="start|center|top" android:id="@id/pip_container" android:visibility="gone" android:layout_width="428.0dip" android:layout_height="362.0dip" android:layout_marginTop="90.0dip" android:layout_marginStart="260.0dip">
+        <androidx.media3.ui.PlayerView android:id="@id/pip_player_view" android:layout_width="fill_parent" android:layout_height="fill_parent" app:surface_type="texture_view" app:use_controller="false" />
+    </FrameLayout>
+    <FrameLayout android:layout_gravity="start" android:id="@id/panel_menu" android:background="#ff2a2a2a" android:visibility="gone" android:layout_width="360.0dip" android:layout_height="fill_parent">
+        <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:paddingTop="40.0dip" android:paddingBottom="40.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/menu_search" android:padding="16.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Search" />
+            <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/menu_tv" android:padding="16.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="TV" />
+            <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/menu_movies" android:padding="16.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Movies" />
+            <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/menu_shows" android:padding="16.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Series" />
+            <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/menu_mylist" android:padding="16.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="My List" />
+            <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:gravity="center" android:id="@id/menu_settings" android:padding="16.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Settings" />
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout android:id="@id/vod_container" android:background="#ff0d0d0d" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <androidx.recyclerview.widget.RecyclerView android:id="@id/vod_category_list" android:background="#ff1a1a1a" android:padding="16.0dip" android:layout_width="280.0dip" android:layout_height="fill_parent" />
+            <LinearLayout android:orientation="vertical" android:id="@id/vod_content_area" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+                <FrameLayout android:id="@id/vod_wallbanner_container" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="0.45">
+                    <ImageView android:id="@id/vod_wallbanner_image" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+                    <View android:background="@drawable/gradient_bottom_dark" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+                    <LinearLayout android:layout_gravity="bottom" android:orientation="vertical" android:padding="24.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <TextView android:textSize="28.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/vod_banner_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="2" />
+                        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip">
+                            <TextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="#ffffd700" android:id="@id/vod_banner_rating" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                            <TextView android:textSize="14.0sp" android:textColor="#ffaaaaaa" android:id="@id/vod_banner_year" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" />
+                            <TextView android:textSize="13.0sp" android:textColor="#80ffffff" android:id="@id/vod_banner_status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" />
+                        </LinearLayout>
+                        <TextView android:textSize="14.0sp" android:textColor="#ffcccccc" android:ellipsize="end" android:id="@id/vod_banner_description" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:maxLines="3" />
+                    </LinearLayout>
+                </FrameLayout>
+                <androidx.recyclerview.widget.RecyclerView android:id="@id/vod_rows" android:paddingTop="16.0dip" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="0.55" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout android:id="@id/detail_modal" android:background="#ff0d0d0d" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <ScrollView android:id="@id/detail_scroll" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="fill_parent" android:fillViewport="true">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <FrameLayout android:layout_width="fill_parent" android:layout_height="360.0dip">
+                    <ImageView android:id="@id/detail_hero_image" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="centerCrop" />
+                    <View android:background="@drawable/gradient_bottom_dark" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+                    <LinearLayout android:layout_gravity="bottom" android:orientation="vertical" android:padding="32.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <TextView android:textSize="32.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/detail_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="2" />
+                        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8.0dip">
+                            <TextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="#ffffd700" android:id="@id/detail_rating" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                            <TextView android:textSize="15.0sp" android:textColor="#ffaaaaaa" android:id="@id/detail_year" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" />
+                            <TextView android:textSize="14.0sp" android:textColor="#80ffffff" android:id="@id/detail_genre" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" />
+                            <TextView android:textSize="14.0sp" android:textColor="#80ffffff" android:id="@id/detail_status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16.0dip" />
+                        </LinearLayout>
+                        <TextView android:textSize="15.0sp" android:textColor="#ffcccccc" android:ellipsize="end" android:id="@id/detail_description" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="12.0dip" android:maxLines="4" />
+                    </LinearLayout>
+                </FrameLayout>
+                <LinearLayout android:orientation="horizontal" android:id="@id/detail_actions_row" android:paddingTop="20.0dip" android:paddingBottom="16.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="32.0dip" android:paddingEnd="32.0dip">
+                    <TextView android:textSize="18.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:gravity="center" android:id="@id/detail_btn_play" android:background="#cc333333" android:focusable="true" android:clickable="true" android:layout_width="160.0dip" android:layout_height="48.0dip" android:text="▶  Play" />
+                    <TextView android:textSize="16.0sp" android:textColor="#ffcccccc" android:gravity="center" android:id="@id/detail_btn_trailer" android:background="#66333333" android:focusable="true" android:clickable="true" android:layout_width="160.0dip" android:layout_height="48.0dip" android:text="🎬  Trailer" android:layout_marginStart="16.0dip" />
+                    <TextView android:textSize="16.0sp" android:textColor="#ffcccccc" android:gravity="center" android:id="@id/detail_btn_mylist" android:background="#66333333" android:focusable="true" android:clickable="true" android:layout_width="160.0dip" android:layout_height="48.0dip" android:text="⭐  My List" android:layout_marginStart="16.0dip" />
+                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView android:id="@id/detail_seasons_rv" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="32.0dip" android:paddingEnd="32.0dip" android:nestedScrollingEnabled="true" />
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+    <FrameLayout android:layout_gravity="bottom" android:id="@id/osd_banner" android:background="#cc1a1a1a" android:paddingTop="16.0dip" android:paddingBottom="16.0dip" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="140.0dip" android:layout_marginBottom="48.0dip" android:paddingStart="24.0dip" android:paddingEnd="24.0dip" android:layout_marginStart="64.0dip" android:layout_marginEnd="64.0dip">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <TextView android:textSize="28.0sp" android:textStyle="bold" android:textColor="#ffff1744" android:id="@id/osd_channel_number" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="001" />
+                <TextView android:textSize="22.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/osd_channel_name" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="Channel Name" android:maxLines="1" android:layout_weight="1.0" android:layout_marginStart="16.0dip" />
+                <TextView android:textSize="16.0sp" android:textColor="#80ffffff" android:id="@id/osd_clock" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="12:00" />
+            </LinearLayout>
+            <TextView android:textSize="16.0sp" android:textColor="#ffe6f7ff" android:ellipsize="end" android:id="@id/osd_programme_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="8.0dip" android:text="Programme Title" android:maxLines="1" />
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="6.0dip">
+                <TextView android:textSize="13.0sp" android:textColor="#80ffffff" android:id="@id/osd_programme_time" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="12:00 - 13:00" />
+                <ProgressBar android:id="@id/osd_programme_progress" android:layout_width="0.0dip" android:layout_height="4.0dip" android:max="100" android:progress="0" android:progressDrawable="@android:drawable/progress_horizontal" android:layout_weight="1.0" android:layout_marginStart="12.0dip" style="?android:progressBarStyleHorizontal" />
+                <TextView android:textSize="12.0sp" android:textColor="#80ffffff" android:id="@id/osd_time_remaining" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-45min" android:layout_marginStart="8.0dip" />
+            </LinearLayout>
+            <TextView android:textSize="36.0sp" android:textStyle="bold" android:textColor="#ffff1744" android:gravity="center" android:id="@id/osd_numeric_entry" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" />
+        </LinearLayout>
+    </FrameLayout>
+    <LinearLayout android:layout_gravity="center" android:orientation="vertical" android:id="@id/quick_actions_panel" android:background="#ee1a1a1a" android:padding="24.0dip" android:visibility="gone" android:layout_width="320.0dip" android:layout_height="wrap_content">
+        <TextView android:textSize="18.0sp" android:textColor="#ffffffff" android:gravity="center_vertical" android:id="@id/qa_audio_tracks" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="48.0dip" android:text="🔊  Audio Tracks" android:paddingStart="16.0dip" />
+        <TextView android:textSize="18.0sp" android:textColor="#ffffffff" android:gravity="center_vertical" android:id="@id/qa_subtitles" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="48.0dip" android:text="💬  Subtitles" android:paddingStart="16.0dip" />
+        <TextView android:textSize="18.0sp" android:textColor="#ffffffff" android:gravity="center_vertical" android:id="@id/qa_aspect_ratio" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="48.0dip" android:text="📐  Aspect Ratio" android:paddingStart="16.0dip" />
+        <TextView android:textSize="18.0sp" android:textColor="#ffffffff" android:gravity="center_vertical" android:id="@id/qa_channel_info" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="48.0dip" android:text="ℹ️  Channel Info" android:paddingStart="16.0dip" />
+        <TextView android:textSize="18.0sp" android:textColor="#ffffffff" android:gravity="center_vertical" android:id="@id/qa_add_favorite" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="48.0dip" android:text="⭐  Add to Favorites" android:paddingStart="16.0dip" />
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_gravity="bottom|center" android:id="@id/exit_confirm_toast" android:background="@drawable/exit_toast_bg" android:paddingLeft="@dimen/exit_toast_padding_h" android:paddingTop="@dimen/exit_toast_padding_v" android:paddingRight="@dimen/exit_toast_padding_h" android:paddingBottom="@dimen/exit_toast_padding_v" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/exit_toast_y_from_bottom"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="@dimen/tivimate_text_body2" android:textColor="@color/tivimate_white_90" android:gravity="center" android:id="@id/exit_confirm_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Press again to exit" />
+</FrameLayout>

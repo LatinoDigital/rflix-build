@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:background="@drawable/epg_program_bg" android:paddingLeft="8.0dip" android:paddingTop="4.0dip" android:paddingRight="8.0dip" android:paddingBottom="4.0dip" android:focusable="true" android:clickable="true" android:layout_width="wrap_content" android:layout_height="72.0dip" android:paddingHorizontal="8.0dip" android:paddingVertical="4.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="13.0sp" android:textColor="#ffffffff" android:ellipsize="end" android:id="@id/program_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Program Title" android:maxLines="2" />
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip">
+        <TextView android:textSize="11.0sp" android:textColor="#ff888888" android:id="@id/program_time" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="20:00" android:layout_weight="1.0" />
+        <View android:id="@id/catchup_indicator" android:background="@drawable/catchup_dot" android:visibility="gone" android:layout_width="6.0dip" android:layout_height="6.0dip" />
+    </LinearLayout>
+    <View android:id="@id/program_progress" android:background="@drawable/progress_gradient" android:visibility="gone" android:layout_width="0.0dip" android:layout_height="3.0dip" android:layout_marginTop="4.0dip" />
+</LinearLayout>

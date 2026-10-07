@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/live_settings_row_selector" android:padding="14.0dip" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="8.0dip" android:minHeight="62.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" android:paddingEnd="12.0dip">
+        <TextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:id="@id/toggle_title" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Item" />
+        <TextView android:textSize="12.0sp" android:textColor="#ff9fa7b7" android:id="@id/toggle_subtitle" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:text="Description" />
+    </LinearLayout>
+    <CheckBox android:id="@id/toggle_checkbox" android:focusable="false" android:clickable="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:buttonTint="#ffe91e63" />
+</LinearLayout>
