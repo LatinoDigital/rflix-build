@@ -25905,10 +25905,17 @@ try{ window.IptvVodBrowser = IptvVodBrowser; }catch(_eVB){}
             else if(typeof hideHomeLoading==='function') hideHomeLoading();
           }catch(_e){}
           // Always reveal rows on user focus - ignore bootNavLock (that's only for auto-startup)
+          // PERF: debounce the reveal. Rebuilding the full section rows on EVERY focus
+          // move made Up/Down navigation between menu items laggy on TV WebViews.
+          // Render only when focus actually rests on an item (~130ms pause); the
+          // clearTimeout at the top of this handler cancels renders from skipped items.
           try{
             if(typeof navigatePreview==='function'){
-              navigatePreview(sec);
-              try{if(window.$$)$$('.nav-item').forEach(function(nb){nb.classList.toggle('active',nb.dataset.nav===sec);});}catch(_eA){}
+              try{ if(window.S&&S._navFocusT) clearTimeout(S._navFocusT); }catch(_eNC){}
+              S._navFocusT=setTimeout(function(){
+                navigatePreview(sec);
+                try{if(window.$)$('.nav-item').forEach(function(nb){nb.classList.toggle('active',nb.dataset.nav===sec);});}catch(_eA){}
+              },130);
             }
           }catch(_e){}
         };
