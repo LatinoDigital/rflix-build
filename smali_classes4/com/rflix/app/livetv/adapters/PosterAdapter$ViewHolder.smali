@@ -14,7 +14,6 @@
 # instance fields
 .field private final posterImage:Landroid/widget/ImageView;
 .field private final posterRating:Landroid/widget/TextView;
-.field private final moreOverlay:Landroid/widget/TextView;
 .field final synthetic this$0:Lcom/rflix/app/livetv/adapters/PosterAdapter;
 
 # direct methods
@@ -32,11 +31,6 @@
     move-result-object p1
     check-cast p1, Landroid/widget/TextView;
     iput-object p1, p0, Lcom/rflix/app/livetv/adapters/PosterAdapter$ViewHolder;->posterRating:Landroid/widget/TextView;
-    sget p1, Lcom/rflix/app/R$id;->poster_more:I
-    invoke-virtual {p2, p1}, Landroid/view/View;->findViewById(I)Landroid/view/View;
-    move-result-object p1
-    check-cast p1, Landroid/widget/TextView;
-    iput-object p1, p0, Lcom/rflix/app/livetv/adapters/PosterAdapter$ViewHolder;->moreOverlay:Landroid/widget/TextView;
     return-void
 .end method
 
@@ -49,12 +43,15 @@
     iget-object v0, p0, Lcom/rflix/app/livetv/adapters/PosterAdapter$ViewHolder;->posterRating:Landroid/widget/TextView;
     const/16 v1, 0x8
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setVisibility(I)V
-    iget-object v0, p0, Lcom/rflix/app/livetv/adapters/PosterAdapter$ViewHolder;->moreOverlay:Landroid/widget/TextView;
+    iget-object v0, p0, Lcom/rflix/app/livetv/adapters/PosterAdapter$ViewHolder;->posterRating:Landroid/widget/TextView;
     const/4 v1, 0x0
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setVisibility(I)V
-    iget-object v0, p0, Lcom/rflix/app/livetv/adapters/PosterAdapter$ViewHolder;->moreOverlay:Landroid/widget/TextView;
+    iget-object v0, p0, Lcom/rflix/app/livetv/adapters/PosterAdapter$ViewHolder;->posterRating:Landroid/widget/TextView;
     const-string v2, "MORE"
     invoke-virtual {v0, v2}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+    iget-object v0, p0, Lcom/rflix/app/livetv/adapters/PosterAdapter$ViewHolder;->posterRating:Landroid/widget/TextView;
+    const/high16 v2, 0x41a00000
+    invoke-virtual {v0, v2}, Landroid/widget/TextView;->setTextSize(F)V
     iget-object v0, p0, Lcom/rflix/app/livetv/adapters/PosterAdapter$ViewHolder;->itemView:Landroid/view/View;
     const/high16 v2, 0x3f800000
     invoke-virtual {v0, v2}, Landroid/view/View;->setAlpha(F)V
@@ -66,7 +63,7 @@
 
 .method public final bind(Lcom/rflix/app/livetv/adapters/PosterData;Z)V
     .locals 4
-    iget-object v0, p0, Lcom/rflix/app/livetv/adapters/PosterAdapter$ViewHolder;->moreOverlay:Landroid/widget/TextView;
+    iget-object v0, p0, Lcom/rflix/app/livetv/adapters/PosterAdapter$ViewHolder;->posterRating:Landroid/widget/TextView;
     const/16 v1, 0x8
     invoke-virtual {v0, v1}, Landroid/widget/TextView;->setVisibility(I)V
     iget-object v0, p0, Lcom/rflix/app/livetv/adapters/PosterAdapter$ViewHolder;->posterImage:Landroid/widget/ImageView;
